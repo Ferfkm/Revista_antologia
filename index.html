@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antologia: Vozes da Psicologia - Livro Digital Aberto</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper: '#FAF5ED',
+            'paper-aged': '#F2E8D8',
+            'paper-dark': '#E6D7C3',
+            ink: '#231F20',
+            brand: {
+              teal: '#2B7A78',
+              coral: '#D9534F',
+              gold: '#E0A96D',
+              navy: '#17252A',
+              yellow: '#ECC94B',
+              wine: '#6B2D5C'
+            }
+          },
+          fontFamily: {
+            serif: ['Lora', 'Georgia', 'serif'],
+            display: ['Cinzel', 'Playfair Display', 'serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* DESIGN E ESTILOS DE LIVRO ABERTO (DOUBLE-PAGE SPREAD) */
+    body {
+      background: radial-gradient(circle at center, #1e2631 0%, #0c0f14 100%);
+      min-height: 100vh;
+      color: #2D3748;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    #app-body {
+      height: 100vh;
+      height: 100dvh;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    #book-content,
+    .page-body-content {
+      min-height: 0;
+    }
+
+    /* Container 3D do Livro Aberto */
+    .book-viewport {
+      perspective: 2500px;
+      perspective-origin: 50% 50%;
+      height: 100%;
+      min-height: 0;
+      max-height: 100%;
+    }
+
+    /* O Livro Aberto com duas páginas lado a lado */
+    .open-book {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      background-color: #FAF5ED;
+      border-radius: 8px;
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.85),
+        0 0 40px rgba(0, 0, 0, 0.5),
+        inset 0 0 2px rgba(255, 255, 255, 0.5);
+      overflow: hidden;
+      transition: transform 0.4s ease;
+    }
+
+    /* Página Esquerda */
+    .book-page-left {
+      width: 50%;
+      height: 100%;
+      background-color: #FAF5ED;
+      background-image: radial-gradient(#e2d7c5 0.5px, transparent 0.5px);
+      background-size: 20px 20px;
+      box-shadow: inset -18px 0 25px -10px rgba(0, 0, 0, 0.18);
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Página Direita */
+    .book-page-right {
+      width: 50%;
+      height: 100%;
+      background-color: #FAF5ED;
+      background-image: radial-gradient(#e2d7c5 0.5px, transparent 0.5px);
+      background-size: 20px 20px;
+      box-shadow: inset 18px 0 25px -10px rgba(0, 0, 0, 0.18);
+      border-left: 1px solid rgba(0, 0, 0, 0.08);
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Lombada central do livro */
+    .book-spine-center {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 30px;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, 
+        rgba(0, 0, 0, 0.25) 0%, 
+        rgba(0, 0, 0, 0.08) 35%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        rgba(0, 0, 0, 0.08) 65%, 
+        rgba(0, 0, 0, 0.25) 100%);
+      pointer-events: none;
+      z-index: 30;
+    }
+
+    /* Animação suave ao trocar de espalhamento/página */
+    .page-turn-anim-next {
+      animation: flipNext 0.5s ease-in-out;
+    }
+
+    .page-turn-anim-prev {
+      animation: flipPrev 0.5s ease-in-out;
+    }
+
+    @keyframes flipNext {
+      0% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(0.98) rotateY(-2deg); opacity: 0.95; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes flipPrev {
+      0% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(0.98) rotateY(2deg); opacity: 0.95; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Modos de Acessibilidade */
+    .high-contrast {
+      background-color: #000000 !important;
+      color: #FFFF00 !important;
+    }
+    
+    .high-contrast .book-page-left,
+    .high-contrast .book-page-right,
+    .high-contrast .open-book {
+      background-color: #000000 !important;
+      background-image: none !important;
+      color: #FFFFFF !important;
+      border: 2px solid #555;
+    }
+
+    .high-contrast p, .high-contrast h1, .high-contrast h2, .high-contrast h3, .high-contrast span {
+      color: #FFFFFF !important;
+    }
+
+    /* Textured Cover Typography */
+    .cover-title-vozes {
+      color: #2B7A78;
+      text-shadow: 2px 2px 0px #17252A, -1px -1px 0px #FAF5ED;
+    }
+    .cover-title-da {
+      color: #D9534F;
+      text-shadow: 2px 2px 0px #742A2A;
+    }
+    .cover-title-psicologia {
+      background: linear-gradient(45deg, #2B7A78, #D9534F, #E0A96D, #17252A, #6B2D5C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(1px 2px 1px rgba(0,0,0,0.3));
+    }
+
+    /* Custom Scrollbars para as páginas */
+    .book-page-left::-webkit-scrollbar,
+    .book-page-right::-webkit-scrollbar {
+      width: 5px;
+    }
+    .book-page-left::-webkit-scrollbar-track,
+    .book-page-right::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.02);
+    }
+    .book-page-left::-webkit-scrollbar-thumb,
+    .book-page-right::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.2);
+      border-radius: 4px;
+    }
+
+    /* Ajuste para mobile (Página única quando a tela for muito pequena) */
+    @media (max-width: 768px) {
+      .open-book {
+        flex-direction: column;
+      }
+      .book-page-left, .book-page-right {
+        width: 100%;
+        height: 100%;
+      }
+      .book-page-left {
+        display: none; /* Em mobile exibe uma por uma */
+      }
+      .book-page-left.active-mobile {
+        display: block;
+      }
+      .book-page-right.active-mobile {
+        display: block;
+      }
+      .book-spine-center {
+        display: none;
+      }
+    }
+
+    /* Estilos para Impressão / PDF */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      #app-body {
+        height: auto !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+      }
+      header, nav, #accessibility-bar, #control-dock, #sidebar-toc, .book-spine-center, button {
+        display: none !important;
+      }
+      .book-viewport, .open-book {
+        box-shadow: none !important;
+        width: 100% !important;
+        height: auto !important;
+        display: block !important;
+      }
+      .book-page-left, .book-page-right {
+        width: 100% !important;
+        display: block !important;
+        page-break-after: always;
+        height: auto !important;
+        overflow: visible !important;
+        background: white !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 2rem !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased text-ink flex flex-col min-h-screen justify-between" id="app-body">
+
+  <!-- BARRA DE ACESSIBILIDADE SUPERIOR -->
+  <div id="accessibility-bar" class="bg-gray-950 text-gray-300 text-xs py-1.5 px-4 flex justify-between items-center z-50 border-b border-gray-800">
+    <div class="flex items-center space-x-3">
+      <a href="#book-content" class="sr-only focus:not-sr-only focus:bg-amber-400 focus:text-gray-950 focus:px-2 focus:py-1 focus:rounded font-bold">Pular para o conteúdo do livro</a>
+      <span class="hidden sm:inline" id="accessibility-instructions">📖 Modo Livro Aberto: Use as setas ⬅️ ➡️ do teclado para virar as páginas.</span>
+    </div>
+    
+    <div class="flex items-center space-x-4">
+      <!-- Botão de Alto Contraste -->
+      <button id="btn-contrast" onclick="toggleHighContrast()" aria-label="Alternar Modo de Alto Contraste" class="hover:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400 px-2 py-0.5 rounded flex items-center gap-1.5 transition">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 010-12v12z"/></svg>
+        <span>Alto Contraste</span>
+      </button>
+
+      <!-- Redimensionador de Fonte -->
+      <div class="flex items-center space-x-1 border-l border-gray-800 pl-3">
+        <button onclick="changeFontSize(-1)" aria-label="Diminuir fonte" class="px-2 py-0.5 hover:bg-gray-800 rounded font-bold hover:text-amber-300">A-</button>
+        <button onclick="changeFontSize(1)" aria-label="Aumentar fonte" class="px-2 py-0.5 hover:bg-gray-800 rounded font-bold hover:text-amber-300">A+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR PRINCIPAL -->
+  <header class="bg-gray-900/95 backdrop-blur-md text-white sticky top-0 z-40 shadow-xl border-b border-gray-800 shrink-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo e Botão do Sumário -->
+      <div class="flex items-center space-x-3">
+        <button onclick="toggleTOC()" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition text-amber-400 flex items-center gap-2" aria-label="Abrir Sumário e Capítulos" title="Sumário de Capítulos">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+          <span class="text-xs font-semibold text-gray-200 hidden md:inline">Sumário</span>
+        </button>
+        <div>
+          <h1 class="font-display font-bold text-base sm:text-lg text-amber-100 tracking-wider leading-none">VOZES DA PSICOLOGIA</h1>
+          <p class="text-xs text-amber-400/80 hidden sm:block font-serif">Livro Digital — Edição Unopar Cascavel</p>
+        </div>
+      </div>
+
+      <!-- PAINEL DE LEITURA EM ÁUDIO (TEXT-TO-SPEECH) -->
+      <div class="flex items-center space-x-2 bg-gray-950/90 rounded-full px-3 py-1.5 border border-gray-800 shadow-inner">
+        <button id="btn-tts-play" onclick="toggleTTS()" class="p-2 rounded-full bg-amber-500 text-gray-950 hover:bg-amber-400 focus:ring-2 focus:ring-amber-300 focus:outline-none transition font-semibold flex items-center justify-center shadow" aria-label="Ouvir leitura em áudio das duas páginas abertas" title="Ouvir Páginas Abertas">
+          <svg id="icon-play" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="icon-pause" class="w-4 h-4 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+
+        <button onclick="stopTTS()" class="p-1.5 text-gray-400 hover:text-white rounded-full focus:outline-none" aria-label="Parar Leitura em Áudio" title="Parar Áudio">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+        </button>
+
+        <div class="hidden lg:flex items-center space-x-1 pl-2 border-l border-gray-800 text-xs">
+          <label for="tts-speed" class="text-gray-400">Velocidade:</label>
+          <select id="tts-speed" onchange="updateTTSSpeed(this.value)" class="bg-gray-900 text-amber-300 rounded px-1.5 py-0.5 border border-gray-700 text-xs focus:outline-none">
+            <option value="0.8">0.8x</option>
+            <option value="1.0" selected>1.0x</option>
+            <option value="1.2">1.2x</option>
+            <option value="1.5">1.5x</option>
+          </select>
+        </div>
+        
+        <span id="tts-status" class="text-xs text-amber-300 font-medium px-2 hidden sm:inline" aria-live="polite">Ouvir Páginas</span>
+      </div>
+
+      <!-- BOTÃO DOWNLOAD PDF -->
+      <div class="flex items-center space-x-2">
+        <a href="Pre%CC%81via%20antologia.pdf" download="Prévia antologia.pdf" class="flex items-center gap-2 bg-brand-teal hover:bg-teal-600 text-white px-3.5 py-1.5 rounded-lg text-sm font-medium transition shadow focus:ring-2 focus:ring-teal-300 focus:outline-none" aria-label="Baixar arquivo Prévia antologia em PDF">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span class="hidden sm:inline">Baixar PDF</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- SIDEBAR - MENU SUMÁRIO -->
+  <aside id="sidebar-toc" class="fixed inset-y-0 left-0 w-80 sm:w-96 bg-gray-950 text-white z-50 transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col border-r border-gray-800" aria-label="Navegação do Sumário">
+    <div class="p-5 border-b border-gray-800 flex justify-between items-center bg-gray-900">
+      <div>
+        <h2 class="font-display text-lg text-amber-300 font-bold">Sumário Completo</h2>
+        <p class="text-xs text-gray-400">Clique para abrir o capítulo no livro</p>
+      </div>
+      <button onclick="toggleTOC()" class="text-gray-400 hover:text-white p-1 rounded-lg focus:ring-2 focus:ring-amber-400" aria-label="Fechar Sumário">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-4 space-y-2 text-sm" id="toc-list">
+      <!-- Preenchido dinamicamente pelo JavaScript -->
+    </div>
+  </aside>
+  <div id="toc-overlay" onclick="toggleTOC()" class="fixed inset-0 bg-black/70 z-40 hidden backdrop-blur-sm"></div>
+
+  <!-- CONTAINER DO LIVRO ABERTO (APROVEITAMENTO MÁXIMO DA TELA) -->
+  <main id="book-content" class="flex-1 min-h-0 flex items-center justify-center p-2 sm:p-4 lg:p-6 relative">
+    
+    <!-- Botão Virar para Trás -->
+    <button onclick="prevSpread()" class="hidden sm:flex absolute left-2 lg:left-6 z-30 p-4 rounded-full bg-gray-900/85 hover:bg-amber-500 text-white hover:text-gray-950 shadow-2xl transition transform hover:scale-110 focus:ring-2 focus:ring-amber-400 focus:outline-none border border-gray-700" aria-label="Páginas Anteriores">
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+
+    <!-- ESTRUTURA DO LIVRO ABERTO (DUAS PÁGINAS LADO A LADO) -->
+    <div class="book-viewport w-[96vw] max-w-7xl max-h-[900px] flex justify-center items-center">
+      <div id="open-book-container" class="open-book">
+        
+        <!-- PÁGINA ESQUERDA DO LIVRO ABERTO -->
+        <article class="book-page-left p-4 sm:p-6 lg:p-8 flex flex-col justify-between" id="left-page-container">
+          <!-- Conteúdo Injetado JS -->
+        </article>
+
+        <!-- LOMBADA CENTRAL DO LIVRO (SPINE) -->
+        <div class="book-spine-center"></div>
+
+        <!-- PÁGINA DIREITA DO LIVRO ABERTO -->
+        <article class="book-page-right p-4 sm:p-6 lg:p-8 flex flex-col justify-between" id="right-page-container">
+          <!-- Conteúdo Injetado JS -->
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Botão Virar para Frente -->
+    <button onclick="nextSpread()" class="hidden sm:flex absolute right-2 lg:right-6 z-30 p-4 rounded-full bg-gray-900/85 hover:bg-amber-500 text-white hover:text-gray-950 shadow-2xl transition transform hover:scale-110 focus:ring-2 focus:ring-amber-400 focus:outline-none border border-gray-700" aria-label="Próximas Páginas">
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+    </button>
+
+  </main>
+
+  <!-- PAINEL INFERIOR DE NAVEGAÇÃO E PROGRESSO -->
+  <footer id="control-dock" class="bg-gray-950/95 border-t border-gray-800 text-white px-4 py-3 sticky bottom-0 z-40 backdrop-blur-md shrink-0">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      
+      <!-- Controles Mobile / Páginas Abertas -->
+      <div class="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-start">
+        <button onclick="prevSpread()" class="sm:hidden px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-amber-300 text-sm font-medium border border-gray-700">
+          ‹ Anterior
+        </button>
+
+        <div class="flex items-center space-x-2">
+          <span class="text-xs text-gray-400">Páginas</span>
+          <span id="open-pages-label" class="bg-gray-900 text-amber-300 font-bold px-2 py-0.5 rounded text-sm border border-gray-700">1 - 2</span>
+          <span class="text-xs text-gray-400" id="total-pages-label">de 74</span>
+        </div>
+
+        <button onclick="nextSpread()" class="sm:hidden px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-amber-300 text-sm font-medium border border-gray-700">
+          Próxima ›
+        </button>
+      </div>
+
+      <!-- Slider de Progresso no Livro -->
+      <div class="w-full sm:flex-1 sm:mx-6 flex items-center space-x-3">
+        <input type="range" id="spread-slider" min="1" max="37" value="1" oninput="jumpToSpread(this.value)" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-amber-400 border border-gray-700" aria-label="Progresso de leitura do livro aberto">
+      </div>
+
+      <!-- Capítulo Atual -->
+      <div class="text-xs text-amber-200/90 font-medium truncate max-w-sm hidden md:block" id="current-spread-title">
+        Capa & Ficha Técnica
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MOTOR JAVASCRIPT DO LIVRO ABERTO -->
+  <script>
+    /* ==========================================================================
+       1. CONTEÚDO INTEGRAL DAS PÁGINAS DO LIVRO
+       ========================================================================== */
+    const rawPages = [
+      
+      // PÁGINA 1: CAPA FIEL À ILUSTRAÇÃO ENVIADA
+      {
+        type: 'cover',
+        title: 'Capa Frontal',
+        html: `
+          <div class="h-full w-full flex items-center justify-center overflow-hidden rounded-lg bg-[#F3E9D9] border-4 border-[#E2D4BF] shadow-inner">
+            <img
+              src="capa.png"
+              alt="Capa da antologia Vozes da Psicologia"
+              class="w-full h-full object-contain rounded-md"
+              onerror="this.onerror=null; this.src='https://placehold.co/900x1200/efe7d7/4a3b2a?text=Capa';"
+            />
+          </div>
+        `
+      },
+
+      // PÁGINA 2: FICHA TÉCNICA
+      {
+        type: 'credits',
+        title: 'Ficha Técnica',
+        html: `
+          <div class="h-full flex flex-col justify-between font-serif text-gray-800">
+            <div>
+              <div class="text-center mb-6 border-b border-gray-300 pb-3">
+                <h2 class="font-display text-lg font-bold text-brand-wine">ANTOLOGIA</h2>
+                <h3 class="font-display text-2xl font-extrabold text-brand-teal">VOZES DA PSICOLOGIA</h3>
+              </div>
+
+              <div class="space-y-5 text-xs sm:text-sm leading-relaxed">
+                <div>
+                  <h4 class="font-bold text-[11px] uppercase tracking-wider text-gray-500 font-sans">Organização</h4>
+                  <p class="text-base font-semibold text-gray-950">Laerte Bach</p>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-[11px] uppercase tracking-wider text-gray-500 font-sans">Instituição</h4>
+                  <p class="text-gray-900">Unopar Cascavel — Curso de Psicologia</p>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-[11px] uppercase tracking-wider text-gray-500 font-sans">Capa e Ilustrações</h4>
+                  <p class="text-gray-900">Fernanda Franciele Krasota Machado Fernandes</p>
+                </div>
+
+                <div class="p-3 bg-amber-50/90 rounded border border-amber-200 text-xs text-gray-700 space-y-1">
+                  <p><strong>Nota:</strong> Os textos assinados nesta antologia expressam as vivências e opiniões de seus respectivos autores.</p>
+                  <p><strong>Cascavel, Paraná — 2026.</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center text-[11px] text-gray-500 font-sans border-t border-gray-200 pt-3">
+              Edição Digital em Formato Livro Aberto com Acessibilidade em Áudio
+            </div>
+          </div>
+        `
+      },
+
+      // PÁGINA 3: INTRODUÇÃO
+      {
+        type: 'content',
+        chapter: 'Introdução',
+        author: 'Laerte Bach',
+        html: `
+          <div class="space-y-4 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <h2 class="font-display text-xl sm:text-2xl font-bold text-brand-teal mb-3 pb-2 border-b border-teal-100">INTRODUÇÃO</h2>
+            
+            <p>Quando pensei nesta antologia, queria que os alunos de Psicologia tivessem a experiência de ver um livro com o próprio nome, porque, por já ter vivido isso em outras antologias, sei o quanto essa experiência muda a relação de alguém com os estudos e dá ânimo para continuar escrevendo e aprendendo.</p>
+            
+            <p>Pedi textos opinativos, escritos por quem está vivendo a psicologia por dentro, e deixei cada autor livre para escolher o tema e o jeito de contar, sem as regras de um artigo científico, o que acabou mostrando uma psicologia bem mais diversa do que a que aparece nos manuais. Os capítulos foram escritos para os próprios alunos, para as famílias e os amigos que acompanharam esse caminho e para quem mais tiver curiosidade sobre a profissão.</p>
+            
+            <p>Na clínica, aprendi que quem escuta também carrega as próprias perguntas, e ler estes textos me lembrou disso várias vezes, porque por trás de cada estudante que se prepara para cuidar do outro existe alguém com dúvidas sobre si, tentando entender a própria história enquanto aprende a acolher a dos outros.</p>
+
+            <div class="pt-4 mt-4 border-t border-gray-200 text-right font-sans">
+              <p class="font-bold text-gray-950 font-display">Laerte Bach</p>
+              <p class="text-[11px] text-gray-500">Organizador da Obra</p>
+            </div>
+          </div>
+        `
+      },
+
+      // PÁGINA 4: SUMÁRIO
+      {
+        type: 'toc',
+        title: 'Sumário',
+        html: `
+          <div class="h-full flex flex-col justify-between font-sans">
+            <div>
+              <h2 class="font-display text-xl sm:text-2xl font-bold text-brand-wine mb-3 pb-2 border-b border-rose-100">SUMÁRIO</h2>
+              <div class="space-y-1 text-xs overflow-y-auto max-h-[55vh] pr-1">
+                
+                <button onclick="jumpToPage(5)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">1. O que faz a Psicologia ser tão única? — <em class="text-gray-500 font-normal">Amanda Luz</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 5</span>
+                </button>
+
+                <button onclick="jumpToPage(11)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">2. Coragem para ficar — <em class="text-gray-500 font-normal">Maria Luiza Santos</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 11</span>
+                </button>
+
+                <button onclick="jumpToPage(17)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">3. Barreiras invisíveis: Maternidade no ensino superior — <em class="text-gray-500 font-normal">Gabrielly Valerio</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 17</span>
+                </button>
+
+                <button onclick="jumpToPage(22)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">4. A história sem elas: O apagamento feminino — <em class="text-gray-500 font-normal">Fernanda Fernandes</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 22</span>
+                </button>
+
+                <button onclick="jumpToPage(27)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">5. Ressignificar na terapia — <em class="text-gray-500 font-normal">Emanuelly Correa</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 27</span>
+                </button>
+
+                <button onclick="jumpToPage(28)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">6. Corpo em movimento, mente em cuidado — <em class="text-gray-500 font-normal">Andréa Arantes</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 28</span>
+                </button>
+
+                <button onclick="jumpToPage(33)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">7. Quando nasce uma mãe, quem nasce junto? — <em class="text-gray-500 font-normal">Wellen Santos</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 33</span>
+                </button>
+
+                <button onclick="jumpToPage(39)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">8. Representação social do diagnóstico — <em class="text-gray-500 font-normal">Gisele Kravicz</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 39</span>
+                </button>
+
+                <button onclick="jumpToPage(45)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">9. A infância na era digital — <em class="text-gray-500 font-normal">Laura Martins</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 45</span>
+                </button>
+
+                <button onclick="jumpToPage(51)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">10. Habitar para além da forma — <em class="text-gray-500 font-normal">Adonis Silva</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 51</span>
+                </button>
+
+                <button onclick="jumpToPage(57)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">11. Terapia assistida por cães — <em class="text-gray-500 font-normal">Jeferson Lima</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 57</span>
+                </button>
+
+                <button onclick="jumpToPage(62)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">12. A Psicologia que eu quero exercer — <em class="text-gray-500 font-normal">Claudio Fonseca</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 62</span>
+                </button>
+
+                <button onclick="jumpToPage(67)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
+                  <span class="font-medium group-hover:text-brand-teal">13. A paixão que não estava nos planos — <em class="text-gray-500 font-normal">Camila Maders</em></span>
+                  <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 67</span>
+                </button>
+
+              </div>
+            </div>
+
+            <div class="text-[11px] text-gray-500 text-center border-t border-gray-200 pt-2">
+              Clique em um capítulo para abri-lo diretamente no livro.
+            </div>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 1 - AMANDA LIMA CARDOSO DA LUZ (PÁGINAS 5 - 10)
+      {
+        type: 'content',
+        chapter: 'O que faz a Psicologia ser tão única?',
+        author: 'Amanda Lima Cardoso da Luz',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-teal">Capítulo 1</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">O QUE FAZ A PSICOLOGIA SER TÃO ÚNICA?</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Amanda Lima Cardoso da Luz</p>
+
+            <p>Quando vemos uma pergunta como essa, a primeira coisa que vem à nossa cabeça são os testes psicológicos, a ética, as teorias, as diferentes abordagens ou a responsabilidade que existe por trás da profissão. E, de fato, tudo isso faz parte da Psicologia. Mas será que é isso que realmente a torna especial?</p>
+
+            <p>Antes de entrar na graduação, a Psicologia era, aos meus olhos com quinze anos, um sonho. Eu imaginava uma profissão voltada para o aconselhamento, para ouvir pessoas e ajudá-las a encontrar respostas para aquilo que, sozinhas, não conseguissem compreender. Naquela época, inclusive, meu maior objetivo era trabalhar com psicoterapia de casal. Eu tinha uma ideia interessante sobre a profissão, mas ainda muito limitada.</p>
+
+            <p>Foi justamente nesse período, aos quinze anos, que comecei a fazer terapia. Ser paciente mudou a forma como eu enxergava a Psicologia. Pela primeira vez, deixei de imaginar a profissão apenas de fora e passei a conhecê-la de outro lugar, o lugar de quem chega com dúvidas, sentimentos, dificuldades e, muitas vezes, sem saber exatamente como explicar aquilo que está vivendo.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'O que faz a Psicologia ser tão única?',
+        author: 'Amanda Lima Cardoso da Luz',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>Quando cheguei à primeira sessão, eu não sabia como funcionava e cheguei extremamente nervosa, não sabia se era só sentar e muito menos o que falar, foi uma experiência de certa forma estranha até eu começar a ver que isso realmente me trazia bons resultados e me fez desenvolver como pessoa e principalmente entender onde queria chegar. O contato como paciente não me ajudou apenas a melhorar meu psicológico e emocional que estavam horríveis, mas me fez naquela época reencontrar a Amanda que agora está tirando mais um sonho do papel.</p>
+
+            <p>Isso tudo me fez pesquisar, ler livros, conhecer teorias, descobrir diferentes abordagens e compreender que a Psicologia não oferecia apenas uma maneira de olhar para o ser humano. Existiam diferentes formas de compreender comportamentos, emoções, relações e experiências. Quanto mais eu estudava, mais percebia que aquilo que eu imaginava ser uma profissão simples de "aconselhar pessoas" carregava uma responsabilidade enorme.</p>
+
+            <p>E hoje vejo que foi aí que a Psicologia começou a se tornar ainda mais especial para mim. Mas, aos dezessete anos, comecei a questionar se a Psicologia realmente combinava comigo. Por mais que aquele sonho continuasse existindo, havia coisas com as quais eu ainda não sabia lidar, principalmente com o meu próprio emocional. E foi nessa época que ouvi uma frase que, de certa forma, ficou marcada em mim:</p>
+
+            <blockquote class="p-3 border-l-4 border-brand-teal bg-teal-50/60 italic text-gray-800 text-xs rounded-r">
+              "Como pode existir um psicólogo sem psicológico?"
+            </blockquote>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'O que faz a Psicologia ser tão única?',
+        author: 'Amanda Lima Cardoso da Luz',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>Quando pessoas próximas me disseram essa frase em uma conversa cotidiana de uma forma engraçada porém que fez com que me questionasse, eles não sabiam e nem eu mesma sabia o quanto aquela frase me faria pensar e se tornaria meu impulso inicial, mas por outro lado foi aí que eu comecei a pensar que não era capaz. E que a Psicologia fosse mesmo meu sonho, mas não necessariamente o meu caminho. Então iniciei outro curso, mas bastou o primeiro dia para perceber que não era o que eu queria.</p>
+
+            <p>E no outro dia voltei atrás e busquei o curso de Psicologia, mas com a certeza de que precisava descobrir se aquele sonho realmente era meu. E aqui estou eu. Aos vinte e um anos, quase concluindo a graduação, olhando para trás e percebendo que aquela menina de quinze anos tinha uma visão muito pequena da profissão que um dia desejou exercer.</p>
+
+            <p>Hoje, se eu pudesse voltar à época em que me disseram essa frase, eu agradeceria pelo impulso que me fez descobrir o que eu realmente quero fazer da minha vida, talvez não na clínica, pois ainda estou me descobrindo. Inclusive, foi neste semestre que tive o primeiro contato com a clínica mas que, de qualquer forma, me fez conhecer esse mundo interessante que se chama Psicologia.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'O que faz a Psicologia ser tão única?',
+        author: 'Amanda Lima Cardoso da Luz',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>E essa Psicologia é, antes de tudo, uma forma de olhar para o ser humano com um olhar que exige, além da empatia, conhecimento científico, para não se basear apenas em uma relação de amizade, além de ética, responsabilidade, escuta e, principalmente, respeito pela diferença das pessoas, é compreender que duas pessoas podem passar por situações semelhantes e vivenciá-las de maneiras completamente diferentes.</p>
+
+            <p>E é isso que, aos meus olhos, torna a Psicologia tão única: estudamos o comportamento humano enquanto também somos seres humanos. Aprendemos sobre emoções enquanto sentimos as nossas, estudamos relações enquanto construímos as nossas. Aprendemos sobre sofrimento, desenvolvimento, personalidade, aprendizagem e tantos outros fenômenos enquanto também estamos vivendo nossas próprias experiências.</p>
+
+            <p>Isso não significa que um psicólogo precisa ser perfeito, ter todas as respostas ou nunca enfrentar suas próprias dificuldades. Mas reconhecer a própria humanidade talvez seja uma das coisas que nos permite compreender a dimensão da responsabilidade de cuidar do outro enquanto ser humano.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'O que faz a Psicologia ser tão única?',
+        author: 'Amanda Lima Cardoso da Luz',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>A Psicologia me ensinou que não precisamos ser feitos de certezas para escolher essa profissão. Precisamos estar dispostos a aprender continuamente. Hoje, quando penso em mim aos quinze anos, quando sonhava em trabalhar com psicoterapia de casal sem sequer compreender a dimensão da profissão que estava escolhendo, sinto que não estava errada, apenas ainda não conhecia o tamanho do sonho que tinha.</p>
+
+            <p>E hoje quero continuar conhecendo a mim mesma, o outro e tudo aquilo que ainda existe para aprender. E a Psicologia é única justamente porque ela nunca termina, existe sempre uma nova pergunta, uma nova história e uma nova pessoa que nos traz novas possibilidades de compreender aquilo que até então era incompreensível.</p>
+
+            <div class="pt-4 text-center text-[11px] text-gray-400 font-sans border-t border-gray-200">
+              Fim do Capítulo 1
+            </div>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 2 - MARIA LUIZA RIBEIRO DOS SANTOS (PÁGINAS 10 - 15)
+      {
+        type: 'content',
+        chapter: 'Coragem para ficar',
+        author: 'Maria Luiza Ribeiro dos Santos',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-coral">Capítulo 2</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">CORAGEM PARA FICAR</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Maria Luiza Ribeiro dos Santos (Luizasantossl17@gmail.com)</p>
+
+            <p>Você se considera uma pessoa corajosa? Eu, particularmente, me identifico com uma frase da autoria de Tati Bernardi que diz: "Tenho medos bobos e coragens absurdas". Acredita que eu pego um sapo na mão, porém morro de medo de lagartas? Quando digo "morro", não é exagero. Só de lembrar, já me arrepiei toda.</p>
+
+            <p>E sabe o que mais? Hoje mesmo eu poderia arrumar as malas e ir para qualquer lugar do mundo sozinha. Em contrapartida, eu não tenho um pingo de coragem para tirar um tempo e olhar para dentro de mim, reconhecer minhas limitações, corrigir algumas coisas e permitir que algumas feridas se curem.</p>
+
+            <p>Não vejo problema algum em querer conhecer a Torre Eiffel ou explorar os lugares mais distantes do mundo. Mas não te soa estranho ser um eterno morador de si mesmo e, ainda assim, ser estranho na própria casa?</p>
+
+            <p>Por muito tempo, corri de mim mesma como se fosse possível, mas, para onde quer que eu fosse, eu estava lá. Sempre que percebia algum desconforto ou alguém pontuava algo a meu respeito, eu ignorava e seguia em frente. Muitas pessoas ao meu redor comentavam com frequência sobre a minha péssima comunicação em determinados ambientes e sobre como eu precisava melhorar minha socialização. Mas nunca considerei necessário melhorar nenhum desses aspectos. Até que comecei a fazer faculdade e vi o meu mundo cair.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'Coragem para ficar',
+        author: 'Maria Luiza Ribeiro dos Santos',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>No primeiro dia de aula, começaram as apresentações, e a professora pediu que disséssemos por que tínhamos escolhido o curso de Psicologia. Conforme todos iam se apresentando e chegava a minha vez, eu tremia, minhas mãos suavam e eu torcia para que, por algum motivo, a minha vez fosse pulada. Repassei a resposta várias vezes na cabeça para não errar na hora e não gaguejar. No fim, a única coisa que falei corretamente foi meu nome e minha idade. E eu queria, por tudo, sumir dali.</p>
+
+            <p>Apesar disso, continuei indo às aulas. A semana foi passando, e eu observava como a dinâmica da sala era totalmente diferente de todas de que já havia participado. Havia uma boa participação dos alunos. Eu não conseguia acompanhar. Eles se mostravam bem desenvoltos, com facilidade para expor suas dúvidas e questionamentos. Acabei me sentindo inferior em relação a eles e menos capaz.</p>
+
+            <p>Uma de nossas professoras gosta muito de dinamizar as aulas, e os métodos dela são ótimos. Em uma de nossas aulas, ela trabalhou em formato de roda para irmos nos acostumando a ficar cara a cara com o paciente no setting terapêutico. Para mim, era o equivalente à roda da morte. A cada pergunta que a professora direcionava à turma, o meu coração ia à boca e voltava. Tinha medo de que me pedisse para responder e eu não conseguisse responder corretamente ou simplesmente dizer que não sabia a resposta e ser vista como burra pelos demais.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'Coragem para ficar',
+        author: 'Maria Luiza Ribeiro dos Santos',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>Diante de tudo o que vivi naquela semana, tive uma crise. Questionei a escolha do curso e se ao menos deveria ter começado a fazer faculdade. Quis parar, convencida de que aquilo não era para mim. Nos dias seguintes, não fui às aulas; decidi ficar em casa. Alguns dias depois, retornei, mas não gostei de todo o desconforto que aquele ambiente me proporcionava e voltei a ficar em casa. Chegou a semana de provas, e eu faltei. Não fiz nenhuma das avaliações. Para mim, era só mais um momento de ser medida, pesada e avaliada.</p>
+
+            <p>Ao olhar para trás, reconheço a legitimidade de tudo o que senti: o medo, a sensação de inferioridade, a ansiedade e todas as dúvidas que me envolveram. Mas também reconheço um padrão que me acompanha há todos esses anos: a fuga. Quando tudo se torna desconfortável demais, quando me sinto vulnerável demais, quando toda aquela imagem de grandeza que venho pintando é ameaçada, minha primeira reação é fugir. Porque ficar implicaria admitir que não dei conta, e isso vai contra toda a versão da menina que resolve tudo.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'Coragem para ficar',
+        author: 'Maria Luiza Ribeiro dos Santos',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>O escritor Robert Fisher, no livro <em>O cavaleiro preso na armadura</em>, nos apresenta um cavaleiro que fica o tempo todo vestido com sua armadura, motivado pelo desejo de ser visto como gentil e bondoso, até que fica preso a ela. Quando procura ajuda para removê-la, depara-se com o sábio Merlin, que o confronta dizendo que ele mesmo a colocou porque tinha medo. O cavaleiro refuta a afirmação e não admite. Quem, afinal, quer admitir que tem medo?</p>
+
+            <p>As circunstâncias que nos cercam desde a infância deixam impregnada em nós a ideia de que sentir medo é algo ruim, de que admitir que temos medo pode resultar em exclusão, julgamentos negativos e até mesmo repressão. Com o passar do tempo, vestimos armaduras para esconder nossas fragilidades e passamos a enxergá-las como algo de errado em nós.</p>
+
+            <p>Outras armaduras surgem do desejo de manter a imagem que as pessoas construíram a nosso respeito ao longo do tempo. Então, todo o nosso esforço passa a girar em torno da manutenção dessa imagem, para não provocar frustração ou rejeição.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'Coragem para ficar',
+        author: 'Maria Luiza Ribeiro dos Santos',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>Eu poderia concluir este capítulo dizendo que encontrei a solução para a minha dificuldade de comunicação em determinados ambientes, ou que voltei para a faculdade, virei o jogo, tirei notas absurdamente boas e tudo mais. Porém, a verdade é que ainda não retornei. Não porque tenha desistido por completo, pois pretendo voltar em breve, mas porque, por ora, com o auxílio da minha terapeuta, estou olhando para dentro de mim e, aos poucos, retirando a armadura que venho carregando ao longo dos anos. Estou procurando ressignificar a forma como encaro minhas limitações.</p>
+
+            <p>Mas encerro este capítulo com a convicção de que decidi ficar. Passei tanto tempo tentando escapar do desconforto que nunca me perguntei o que aconteceria se, em vez de fugir, eu ficasse.</p>
+
+            <p>Ficar para reconhecer minhas limitações sem transformá-las em sentenças. Para descobrir quem existe por trás das versões que construí tentando ser aceita. Pela primeira vez, começo a compreender que não preciso continuar fugindo para descobrir quem sou. Talvez eu não precise encontrar outra casa. Talvez precise aprender a habitar a minha.</p>
+
+            <p class="font-bold text-brand-coral text-center text-sm font-display pt-2">Ficar é também um ato de coragem.</p>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 3 - GABRIELLY MAYZE STEINHEUSER VALERIO (PÁGINAS 16 - 21)
+      {
+        type: 'content',
+        chapter: 'Barreiras invisíveis: Maternidade no Ensino Superior',
+        author: 'Gabrielly Mayze Steinheuser Valerio',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-gold">Capítulo 3</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">BARREIRAS INVISÍVEIS: MATERNIDADE E PERMANÊNCIA NO ENSINO SUPERIOR</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Gabrielly Mayze Steinheuser Valerio (steinheuserg@gmail.com)</p>
+
+            <p>Escrevo este texto enquanto amamento meu filho Isaac. Talvez não exista uma imagem mais fiel da minha experiência acadêmica desde que me tornei mãe. Hoje, estudar acontece entre mamadas, despertares, trabalho, estágio e todas as outras funções que continuo desempenhando.</p>
+
+            <p>Sempre quis ser mãe. Ao mesmo tempo, sendo filha de uma mãe solo que batalhou muito para criar a mim e ao meu irmão sem ter tido muitas oportunidades de estudo, cresci entendendo a educação como possibilidade de transformação. Levei alguns anos até me encontrar no curso de Psicologia e sentir que estava no caminho certo.</p>
+
+            <p>Conquistei uma bolsa integral por meio do vestibular, ficando entre os melhores colocados. Isso foi decisivo para que eu pudesse estudar. Tenho orgulho dessa conquista, mas também reconheço que provavelmente nem teria iniciado uma graduação particular se precisasse pagar mensalidade.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'Barreiras invisíveis: Maternidade no Ensino Superior',
+        author: 'Gabrielly Mayze Steinheuser Valerio',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>No terceiro ano do curso, engravidei. A gestação não havia sido planejada para aquele momento, mas continuei trabalhando, frequentando as aulas e cumprindo os compromissos de estágio. Isaac nasceu em dezembro e, dois meses depois, as aulas retornaram. Eu tinha direito ao afastamento, mas optei por voltar. Como ele estava em aleitamento materno exclusivo, eu retirava leite e o deixava com o pai durante as poucas horas em que precisava estar na faculdade.</p>
+
+            <p>Mesmo assim, senti o peso do julgamento por deixar um bebê tão pequeno sem a mãe. Ele estava com o próprio pai. Foi quando percebi que, depois que uma mulher se torna mãe, algumas escolhas parecem precisar de justificativa.</p>
+
+            <p>Foi depois da maternidade que compreendi que ter dias disponíveis no calendário não significa ter horas disponíveis para estudar. Um prazo que termina no domingo pode parecer um prazo que inclui todo o final de semana. Mas finais de semana também significam cuidar do meu filho e realizar outras tarefas.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'Barreiras invisíveis: Maternidade no Ensino Superior',
+        author: 'Gabrielly Mayze Steinheuser Valerio',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>Falar sobre maternidade dentro da universidade não significa pedir privilégios. Significa reconhecer que as pessoas não partem das mesmas condições. Um prazo pode ser igual para todos. A disponibilidade para cumpri-lo, não.</p>
+
+            <p>Espero que, quando Isaac crescer e compreender essa parte da nossa história, não enxergue a faculdade como algo que me afastou dele. Espero que compreenda que continuar também foi uma forma de cuidar. Do futuro dele e do meu.</p>
+
+            <div class="pt-4 text-center text-[11px] text-gray-400 font-sans border-t border-gray-200">
+              Fim do Capítulo 3
+            </div>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 4 - FERNANDA FRANCIELE KRASOTA MACHADO FERNANDES (PÁGINAS 22 - 26)
+      {
+        type: 'content',
+        chapter: 'A História Sem Elas',
+        author: 'Fernanda Franciele Krasota Machado Fernandes',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-wine">Capítulo 4</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A HISTÓRIA SEM ELAS: O APAGAMENTO DAS MENTES FEMININAS</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Fernanda Franciele Krasota Machado Fernandes (@fernandafkmachado)</p>
+
+            <p>Sentada na sala de aula, percebo ao meu redor turmas majoritariamente compostas por mulheres, à frente uma professora. Ao olhar a tela do projetor, ao abrir os livros, observo a lista de grandes nomes: Freud, Rogers, Skinner, Maslow.</p>
+
+            <p>Há quinze anos, quando me deparei com a escrita do TCC na faculdade de Filosofia, busquei compreender como as estruturas organizam o mundo. Na época, minha atenção estava voltada a questões como indústria cultural, alienação e estruturas sociais; no entanto, já havia outra questão que me causava certo desconforto e que simplesmente deixei passar. Foram quatro anos de graduação em que raramente ouvi nomes de filósofas mulheres. Hannah Arendt e Simone de Beauvoir eram citadas apenas de passagem.</p>
+
+            <p>O tempo passou e hoje estou no terceiro ano da faculdade de Psicologia. A história se repete, mas dessa vez o desconforto e o incômodo me atravessam de um modo diferente.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'A História Sem Elas',
+        author: 'Fernanda Franciele Krasota Machado Fernandes',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>A teoria dá o nome de <strong>epistemicídio</strong> a esse processo: o apagamento sistemático do saber produzido por grupos marginalizados. O mais angustiante é perceber que isso não ficou no passado. Essa construção desigual continua viva hoje, criando barreiras invisíveis que sufocam a nossa liberdade e o espaço das mulheres.</p>
+
+            <p>Como explicar que uma profissão mantida por mulheres continue ensinando uma história contada quase só por homens? Pensadoras como Edith Stein, Simone de Beauvoir, Laura Perls e Nise da Silveira revolucionaram a história da psicologia e da psiquiatria no país por meio do afeto e da arte.</p>
+
+            <p>Superar o epistemicídio é uma necessidade fundamental para que as futuras gerações saibam que a inteligência, o rigor científico e o cuidado humanizado sempre foram, também, marcas da autoria feminina.</p>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 5 - EMANUELLY CORREA (PÁGINA 27)
+      {
+        type: 'content',
+        chapter: 'Ressignificar na terapia',
+        author: 'Emanuelly Fernanda Correa',
+        html: `
+          <div class="h-full flex flex-col justify-center items-center text-center space-y-3 font-serif text-gray-800 p-4">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-teal">Capítulo 5</span>
+            <h2 class="font-display text-lg font-bold text-gray-950 leading-tight">RESSIGNIFICAR NA TERAPIA, DIANTE DA ÓTICA PSICANALISTA</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold">Emanuelly Fernanda Correa (emanuellycorrea@hotmail.com)</p>
+
+            <div class="p-4 bg-amber-50/90 rounded border border-amber-200 max-w-sm my-6 shadow-sm">
+              <svg class="w-8 h-8 text-brand-teal mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              <p class="italic text-gray-700 text-xs">[Capítulo em revisão. Versão final a ser inserida no volume impresso.]</p>
+            </div>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 6 - ANDRÉA SOUZA ARANTES (PÁGINAS 28 - 32)
+      {
+        type: 'content',
+        chapter: 'Corpo em movimento, mente em cuidado',
+        author: 'Andréa Souza Arantes',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-teal">Capítulo 6</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">CORPO EM MOVIMENTO, MENTE EM CUIDADO: A ATIVIDADE FÍSICA COMO ALIADA DA PSICOTERAPIA</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Andréa Souza Arantes (psico.andreaarantes@gmail.com)</p>
+
+            <p>O que você tem feito por você? Essa foi a pergunta que ouvi por muito tempo na sala do meu terapeuta. Foi um período em que eu enfrentava a depressão.</p>
+
+            <p>Eu não conseguia perceber o que se passava na minha mente, mas o meu corpo falava, com cansaço sem motivo, insônia, faltava motivação para me movimentar, e eu não conseguia descrever em palavras o que meu corpo estava querendo dizer. Um cansaço que não era apenas físico: o corpo estava dando sinais, como dores musculares, que na verdade eram reflexo do que eu passava emocionalmente.</p>
+
+            <p>A atividade física não substitui uma sessão de psicoterapia, mas a cada evolução, movimentar o corpo traz disposição, equilibra neurotransmissores e favorece a autonomia emocional.</p>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 7 - WELLEN SANTOS (PÁGINAS 33 - 38)
+      {
+        type: 'content',
+        chapter: 'Quando nasce uma mãe, quem nasce junto?',
+        author: 'Wellen Priscila Araujo Pereira dos Santos',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-wine">Capítulo 7</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">QUANDO NASCE UMA MÃE, QUEM NASCE JUNTO?</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Wellen Priscila Araujo Pereira dos Santos (@priscilawellen)</p>
+
+            <p>Passei anos esperando pelo dia em que teria meu filho nos braços. O que eu não imaginava era que, depois desse encontro, também precisaria aprender a olhar para mim de uma nova maneira. Em que momento ser mãe se tornou tão fácil de reconhecer, enquanto reconhecer a mim mesma ficou tão difícil?</p>
+
+            <p>Sempre sonhei com a maternidade, mas quando Joshua nasceu, percebi a distância entre a maternidade idealizada e a real. O mais difícil nem sempre é cuidar do bebê, mas aprender a cuidar de si enquanto se cuida dele.</p>
+
+            <p>A mãe também precisa ser cuidada, ouvida e reconhecida como pessoa. Não precisa escolher entre amar seu filho e olhar para si.</p>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 8 - GISELE KRAVICZ (PÁGINAS 39 - 44)
+      {
+        type: 'content',
+        chapter: 'A Representação Social do Diagnóstico',
+        author: 'Gisele Ferreira Kravicz',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-gold">Capítulo 8</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A REPRESENTAÇÃO SOCIAL DO DIAGNÓSTICO</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Gisele Ferreira Kravicz (giselekravicz@gmail.com)</p>
+
+            <p>"Ele é autista e tem altas habilidades", "o meu tem TDAH e TOD". Frases ouvidas na sala de espera mostram como diagnósticos por vezes rotulam pessoas. Moscovici estuda como as representações sociais tornam familiar o estranho.</p>
+
+            <p>O DSM e a CID são guias técnicos, não rótulos para definir a totalidade de alguém. É preciso escuta qualificada para enxergar o ser humano além daquilo que dizem que ele tem.</p>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 9 - LAURA MARTINS (PÁGINAS 45 - 50)
+      {
+        type: 'content',
+        chapter: 'A Infância na Era Digital',
+        author: 'Laura do Prado Eliziário Martins',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-teal">Capítulo 9</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A INFÂNCIA NA ERA DIGITAL</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Laura do Prado Eliziário Martins (@laura_do_prado)</p>
+
+            <p>Pela Psicologia Histórico-Cultural de Vigotski, as Funções Psicológicas Superiores se desenvolvem na interação social. Na era digital, telas substituem a paciência das brincadeiras reais por gratificação instantânea. A mediação humana do adulto é insubstituível.</p>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 10 - ADONIS SILVA (PÁGINAS 51 - 56)
+      {
+        type: 'content',
+        chapter: 'Habitar para Além da Forma',
+        author: 'Adonis Luiz Osmar Silva',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-coral">Capítulo 10</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">HABITAR PARA ALÉM DA FORMA: ARQUITETURA E MENTE</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Adonis Luiz Osmar Silva (@adonis.professor)</p>
+
+            <p>A arquitetura vai além do abrigo físico: luz, ventilação e biofilia transformam a saúde mental dos moradores. A casa pode devolver autonomia, dignidade e paz de espírito.</p>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 11 - JEFERSON LIMA (PÁGINAS 57 - 61)
+      {
+        type: 'content',
+        chapter: 'Terapia Assistida por Cães',
+        author: 'Jeferson Deobald Lima',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-gold">Capítulo 11</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">TERAPIA ASSISTIDA POR CÃES</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Jeferson Deobald Lima (@Jefersondeobaldlima)</p>
+
+            <p>Interações afetuosas com cães de terapia liberam oxitocina e serotonina, facilitando o vínculo terapêutico, aliviando ansiedade, síndrome do pânico e estimulando o relaxamento e acolhimento.</p>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 12 - CLAUDIO FONSECA (PÁGINAS 62 - 66)
+      {
+        type: 'content',
+        chapter: 'A Psicologia que eu Quero Exercer',
+        author: 'Claudio Garcia da Fonseca',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-wine">Capítulo 12</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A PSICOLOGIA QUE EU QUERO EXERCER</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Claudio Garcia da Fonseca (@claudiogarcia)</p>
+
+            <p>Em um mundo cheio de agulhas tentando furar o balão da vida das pessoas, quero ser o oxigênio que devolve a esperança. Pautado na ética e na escuta ativa, lembrando o ensinamento de Carl Jung.</p>
+          </div>
+        `
+      },
+
+      // CAPÍTULO 13 - CAMILA MADERS (PÁGINAS 67 - 73)
+      {
+        type: 'content',
+        chapter: 'A Paixão que Não Estava nos Planos',
+        author: 'Camila Maders',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-teal">Capítulo 13</span>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A PAIXÃO QUE NÃO ESTAVA NOS PLANOS: A DOCÊNCIA</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Camila Maders (camila.maders@cogna.com.br)</p>
+
+            <p>Ser professor é um constante aprender. Formar futuros psicólogos exige responsabilidade com o desenvolvimento humano e sensibilidade com a história das pessoas.</p>
+          </div>
+        `
+      },
+
+      // ÚLTIMA PÁGINA: CONTRACAPA FIEL À ILUSTRAÇÃO ENVIADA
+      {
+        type: 'backcover',
+        title: 'Contracapa Rear',
+        html: `
+          <div class="h-full w-full flex items-center justify-center overflow-hidden rounded-lg bg-[#F3E9D9] border-4 border-[#E2D4BF] shadow-inner">
+            <img
+              src="contracapa_antologia.png"
+              alt="Contracapa da antologia Vozes da Psicologia"
+              class="w-full h-full object-contain rounded-md"
+              onerror="this.onerror=null; this.src='https://placehold.co/900x1200/efe7d7/4a3b2a?text=Contracapa';"
+            />
+          </div>
+        `
+      }
+    ];
+
+    /* ==========================================================================
+       2. ESTRUTURAÇÃO DOS SPREADS (DUAS PÁGINAS LADO A LADO)
+       ========================================================================== */
+    let spreads = [];
+    let currentSpreadIndex = 0;
+    let isHighContrast = false;
+    let currentFontSizeOffset = 0;
+
+    // Estado da Síntese de Voz (TTS)
+    const synth = window.speechSynthesis;
+    let isSpeaking = false;
+    let ttsSpeed = 1.0;
+
+    window.onload = function() {
+      organizeSpreads();
+      renderSpread();
+      buildTOC();
+      setupEvents();
+    };
+
+    function organizeSpreads() {
+      spreads = [];
+      // Agrupa as páginas de 2 em 2 para formato de livro aberto lado a lado
+      for (let i = 0; i < rawPages.length; i += 2) {
+        spreads.push({
+          leftIndex: i,
+          rightIndex: i + 1 < rawPages.length ? i + 1 : null,
+          leftPage: rawPages[i],
+          rightPage: i + 1 < rawPages.length ? rawPages[i + 1] : null
+        });
+      }
+    }
+
+    /* Renderização do Livro Aberto */
+    function renderSpread() {
+      const spread = spreads[currentSpreadIndex];
+      const leftContainer = document.getElementById('left-page-container');
+      const rightContainer = document.getElementById('right-page-container');
+      const bookContainer = document.getElementById('open-book-container');
+
+      // Animação de virada
+      bookContainer.classList.remove('page-turn-anim-next', 'page-turn-anim-prev');
+      void bookContainer.offsetWidth; // trigger reflow
+      bookContainer.classList.add('page-turn-anim-next');
+
+      // Conteúdo da Página Esquerda
+      if (spread.leftPage) {
+        leftContainer.innerHTML = `
+          <div class="flex-1 page-body-content">${spread.leftPage.html}</div>
+          <div class="mt-4 pt-2 border-t border-gray-200/60 flex justify-between items-center text-[11px] text-gray-400 font-sans">
+            <span class="font-medium text-gray-500">VOZES DA PSICOLOGIA</span>
+            <span class="font-bold text-gray-600">Pág. ${spread.leftIndex + 1}</span>
+          </div>
+        `;
+        leftContainer.classList.add('active-mobile');
+      } else {
+        leftContainer.innerHTML = '';
+      }
+
+      // Conteúdo da Página Direita
+      if (spread.rightPage) {
+        rightContainer.innerHTML = `
+          <div class="flex-1 page-body-content">${spread.rightPage.html}</div>
+          <div class="mt-4 pt-2 border-t border-gray-200/60 flex justify-between items-center text-[11px] text-gray-400 font-sans">
+            <span class="font-medium text-gray-500">VOZES DA PSICOLOGIA</span>
+            <span class="font-bold text-gray-600">Pág. ${spread.rightIndex + 1}</span>
+          </div>
+        `;
+        rightContainer.classList.add('active-mobile');
+      } else {
+        rightContainer.innerHTML = `
+          <div class="h-full flex items-center justify-center text-gray-300 font-serif italic text-sm">
+            [ Fim da Antologia ]
+          </div>
+        `;
+      }
+
+      updateUI();
+
+      if (isSpeaking) {
+        stopTTS();
+      }
+    }
+
+    /* Som de folhear papel usando Web Audio API */
+    function playPaperTurnSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        
+        const bufferSize = ctx.sampleRate * 0.12;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(300, ctx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(1400, ctx.currentTime + 0.1);
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start();
+      } catch (e) {}
+    }
+
+    /* Navegação entre Espalhamentos */
+    function nextSpread() {
+      if (currentSpreadIndex < spreads.length - 1) {
+        currentSpreadIndex++;
+        playPaperTurnSound();
+        renderSpread();
+      }
+    }
+
+    function prevSpread() {
+      if (currentSpreadIndex > 0) {
+        currentSpreadIndex--;
+        playPaperTurnSound();
+        renderSpread();
+      }
+    }
+
+    function jumpToSpread(num) {
+      const idx = parseInt(num) - 1;
+      if (idx >= 0 && idx < spreads.length) {
+        currentSpreadIndex = idx;
+        playPaperTurnSound();
+        renderSpread();
+      }
+    }
+
+    function jumpToPage(pageNumber) {
+      const pageIdx = pageNumber - 1;
+      const targetSpread = Math.floor(pageIdx / 2);
+      jumpToSpread(targetSpread + 1);
+    }
+
+    function updateUI() {
+      const spread = spreads[currentSpreadIndex];
+      const pageLeftNum = spread.leftIndex + 1;
+      const pageRightNum = spread.rightIndex ? spread.rightIndex + 1 : pageLeftNum;
+
+      document.getElementById('open-pages-label').innerText = `${pageLeftNum} - ${pageRightNum}`;
+      document.getElementById('total-pages-label').innerText = `de ${rawPages.length}`;
+      document.getElementById('spread-slider').max = spreads.length;
+      document.getElementById('spread-slider').value = currentSpreadIndex + 1;
+
+      // Atualiza o título no rodapé
+      const title = spread.leftPage.chapter || spread.leftPage.title;
+      document.getElementById('current-spread-title').innerText = title;
+    }
+
+    /* Sumário Lateral */
+    function buildTOC() {
+      const tocList = document.getElementById('toc-list');
+      tocList.innerHTML = '';
+
+      rawPages.forEach((page, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'w-full text-left p-2.5 rounded-lg hover:bg-gray-800 transition flex justify-between items-center text-gray-200 hover:text-amber-300 border-b border-gray-800/60';
+        
+        const titleText = page.chapter ? `${page.chapter}` : page.title;
+        const authorText = page.author ? `<span class="block text-[11px] text-gray-400 font-normal mt-0.5">${page.author}</span>` : '';
+
+        btn.innerHTML = `
+          <div>
+            <span class="font-medium text-xs sm:text-sm text-amber-100">${idx + 1}. ${titleText}</span>
+            ${authorText}
+          </div>
+          <span class="text-[11px] bg-gray-900 border border-gray-700 px-2 py-0.5 rounded text-amber-400 font-bold">Pág. ${idx + 1}</span>
+        `;
+        
+        btn.onclick = () => {
+          jumpToPage(idx + 1);
+          toggleTOC();
+        };
+
+        tocList.appendChild(btn);
+      });
+    }
+
+    function toggleTOC() {
+      const sidebar = document.getElementById('sidebar-toc');
+      const overlay = document.getElementById('toc-overlay');
+      const isClosed = sidebar.classList.contains('-translate-x-full');
+      if (isClosed) {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+      }
+    }
+
+    /* ==========================================================================
+       3. REPRODUTOR DE VOZ (TEXT-TO-SPEECH) SEQUENCIAL DAS DUAS PÁGINAS ABERTAS
+       ========================================================================== */
+    function toggleTTS() {
+      if (isSpeaking) {
+        if (synth.paused) {
+          synth.resume();
+          updateTTSStatus("Lendo...");
+          togglePlayIcons(true);
+        } else {
+          synth.pause();
+          updateTTSStatus("Pausado");
+          togglePlayIcons(false);
+        }
+      } else {
+        startTTSForOpenBook();
+      }
+    }
+
+    function startTTSForOpenBook() {
+      if (!('speechSynthesis' in window)) {
+        alert("Navegador sem suporte para síntese de voz.");
+        return;
+      }
+
+      synth.cancel();
+
+      const leftText = document.getElementById('left-page-container').innerText || '';
+      const rightText = document.getElementById('right-page-container').innerText || '';
+      const fullSpreadText = `${leftText}. ${rightText}`;
+
+      if (!fullSpreadText.trim()) return;
+
+      const utterance = new SpeechSynthesisUtterance(fullSpreadText);
+      utterance.lang = 'pt-BR';
+      utterance.rate = ttsSpeed;
+
+      const voices = synth.getVoices();
+      const ptVoice = voices.find(v => v.lang.includes('pt') || v.lang.includes('BR'));
+      if (ptVoice) utterance.voice = ptVoice;
+
+      utterance.onstart = function() {
+        isSpeaking = true;
+        togglePlayIcons(true);
+        updateTTSStatus("Lendo páginas abertas...");
+      };
+
+      utterance.onend = function() {
+        isSpeaking = false;
+        togglePlayIcons(false);
+        updateTTSStatus("Leitura Concluída");
+      };
+
+      utterance.onerror = function() {
+        isSpeaking = false;
+        togglePlayIcons(false);
+        updateTTSStatus("Erro no áudio");
+      };
+
+      synth.speak(utterance);
+    }
+
+    function stopTTS() {
+      if (synth) synth.cancel();
+      isSpeaking = false;
+      togglePlayIcons(false);
+      updateTTSStatus("Ouvir Páginas");
+    }
+
+    function updateTTSSpeed(val) {
+      ttsSpeed = parseFloat(val);
+      if (isSpeaking) {
+        stopTTS();
+        startTTSForOpenBook();
+      }
+    }
+
+    function togglePlayIcons(isPlaying) {
+      const play = document.getElementById('icon-play');
+      const pause = document.getElementById('icon-pause');
+      if (isPlaying) {
+        play.classList.add('hidden');
+        pause.classList.remove('hidden');
+      } else {
+        play.classList.remove('hidden');
+        pause.classList.add('hidden');
+      }
+    }
+
+    function updateTTSStatus(msg) {
+      document.getElementById('tts-status').innerText = msg;
+    }
+
+    /* Acessibilidade & Eventos */
+    function toggleHighContrast() {
+      isHighContrast = !isHighContrast;
+      document.getElementById('app-body').classList.toggle('high-contrast', isHighContrast);
+    }
+
+    function changeFontSize(delta) {
+      currentFontSizeOffset += delta;
+      if (currentFontSizeOffset < -2) currentFontSizeOffset = -2;
+      if (currentFontSizeOffset > 3) currentFontSizeOffset = 3;
+
+      const pageBodies = document.querySelectorAll('.page-body-content');
+      pageBodies.forEach(el => {
+        el.style.fontSize = `${0.9 + (currentFontSizeOffset * 0.07)}rem`;
+      });
+    }
+
+    function setupEvents() {
+      document.addEventListener('keydown', (e) => {
+        if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return;
+        if (e.key === 'ArrowRight') nextSpread();
+        if (e.key === 'ArrowLeft') prevSpread();
+        if (e.key === ' ') { e.preventDefault(); toggleTTS(); }
+        if (e.key === 'Escape') stopTTS();
+      });
+
+      // Gestos de toque
+      let touchStartX = 0;
+      const bookEl = document.getElementById('book-content');
+      bookEl.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+      bookEl.addEventListener('touchend', (e) => {
+        const diff = e.changedTouches[0].screenX - touchStartX;
+        if (diff < -50) nextSpread();
+        if (diff > 50) prevSpread();
+      }, { passive: true });
+    }
+
+  </script>
+</body>
+</html>
