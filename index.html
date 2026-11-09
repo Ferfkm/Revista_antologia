@@ -212,14 +212,25 @@
         width: 100%;
         height: 100%;
       }
-      .book-page-left {
-        display: none; /* Em mobile exibe uma por uma */
+      .book-page-left,
+      .book-page-right {
+        display: none !important;
       }
       .book-page-left.active-mobile {
-        display: block;
+        display: flex !important;
       }
       .book-page-right.active-mobile {
-        display: block;
+        display: flex !important;
+      }
+      .book-page-left.active-mobile,
+      .book-page-right.active-mobile {
+        overflow: hidden;
+      }
+      .page-body-content {
+        overflow-y: auto;
+      }
+      .page-footer {
+        flex-shrink: 0;
       }
       .book-spine-center {
         display: none;
@@ -399,7 +410,7 @@
         </button>
 
         <div class="flex items-center space-x-2">
-          <span class="text-xs text-gray-400">Páginas</span>
+          <span class="text-xs text-gray-400" id="pages-label">Páginas</span>
           <span id="open-pages-label" class="bg-gray-900 text-amber-300 font-bold px-2 py-0.5 rounded text-sm border border-gray-700">1 - 2</span>
           <span class="text-xs text-gray-400" id="total-pages-label">de 74</span>
         </div>
@@ -1018,6 +1029,7 @@
        ========================================================================== */
     let spreads = [];
     let currentSpreadIndex = 0;
+    let currentPageIndex = 0;
     let isHighContrast = false;
     let currentFontSizeOffset = 0;
 
@@ -1046,12 +1058,18 @@
       }
     }
 
+    function isMobileLayout() {
+      return window.matchMedia('(max-width: 768px)').matches;
+    }
+
     /* Renderização do Livro Aberto */
     function renderSpread() {
+      currentSpreadIndex = Math.floor(currentPageIndex / 2);
       const spread = spreads[currentSpreadIndex];
       const leftContainer = document.getElementById('left-page-container');
       const rightContainer = document.getElementById('right-page-container');
       const bookContainer = document.getElementById('open-book-container');
+      const mobileLayout = isMobileLayout();
 
       // Animação de virada
       bookContainer.classList.remove('page-turn-anim-next', 'page-turn-anim-prev');
@@ -1062,32 +1080,34 @@
       if (spread.leftPage) {
         leftContainer.innerHTML = `
           <div class="flex-1 page-body-content">${spread.leftPage.html}</div>
-          <div class="mt-4 pt-2 border-t border-gray-200/60 flex justify-between items-center text-[11px] text-gray-400 font-sans">
+          <div class="page-footer mt-4 pt-2 border-t border-gray-200/60 flex justify-between items-center text-[11px] text-gray-400 font-sans">
             <span class="font-medium text-gray-500">VOZES DA PSICOLOGIA</span>
             <span class="font-bold text-gray-600">Pág. ${spread.leftIndex + 1}</span>
           </div>
         `;
-        leftContainer.classList.add('active-mobile');
+        leftContainer.classList.toggle('active-mobile', mobileLayout && currentPageIndex === spread.leftIndex);
       } else {
         leftContainer.innerHTML = '';
+        leftContainer.classList.remove('active-mobile');
       }
 
       // Conteúdo da Página Direita
       if (spread.rightPage) {
         rightContainer.innerHTML = `
           <div class="flex-1 page-body-content">${spread.rightPage.html}</div>
-          <div class="mt-4 pt-2 border-t border-gray-200/60 flex justify-between items-center text-[11px] text-gray-400 font-sans">
+          <div class="page-footer mt-4 pt-2 border-t border-gray-200/60 flex justify-between items-center text-[11px] text-gray-400 font-sans">
             <span class="font-medium text-gray-500">VOZES DA PSICOLOGIA</span>
             <span class="font-bold text-gray-600">Pág. ${spread.rightIndex + 1}</span>
           </div>
         `;
-        rightContainer.classList.add('active-mobile');
+        rightContainer.classList.toggle('active-mobile', mobileLayout && currentPageIndex === spread.rightIndex);
       } else {
         rightContainer.innerHTML = `
           <div class="h-full flex items-center justify-center text-gray-300 font-serif italic text-sm">
             [ Fim da Antologia ]
           </div>
         `;
+        rightContainer.classList.remove('active-mobile');
       }
 
       updateUI();
@@ -1130,16 +1150,18 @@
 
     /* Navegação entre Espalhamentos */
     function nextSpread() {
-      if (currentSpreadIndex < spreads.length - 1) {
-        currentSpreadIndex++;
+      const pageStep = isMobileLayout() ? 1 : 2;
+      if (currentPageIndex + pageStep < rawPages.length) {
+        currentPageIndex += pageStep;
         playPaperTurnSound();
         renderSpread();
       }
     }
 
     function prevSpread() {
-      if (currentSpreadIndex > 0) {
-        currentSpreadIndex--;
+      const pageStep = isMobileLayout() ? 1 : 2;
+      if (currentPageIndex > 0) {
+        currentPageIndex = Math.max(0, currentPageIndex - pageStep);
         playPaperTurnSound();
         renderSpread();
       }
@@ -1147,8 +1169,9 @@
 
     function jumpToSpread(num) {
       const idx = parseInt(num) - 1;
-      if (idx >= 0 && idx < spreads.length) {
-        currentSpreadIndex = idx;
+      const maxIndex = isMobileLayout() ? rawPages.length - 1 : spreads.length - 1;
+      if (idx >= 0 && idx <= maxIndex) {
+        currentPageIndex = isMobileLayout() ? idx : idx * 2;
         playPaperTurnSound();
         renderSpread();
       }
@@ -1156,22 +1179,30 @@
 
     function jumpToPage(pageNumber) {
       const pageIdx = pageNumber - 1;
-      const targetSpread = Math.floor(pageIdx / 2);
-      jumpToSpread(targetSpread + 1);
+      if (pageIdx >= 0 && pageIdx < rawPages.length) {
+        currentPageIndex = isMobileLayout() ? pageIdx : Math.floor(pageIdx / 2) * 2;
+        playPaperTurnSound();
+        renderSpread();
+      }
     }
 
     function updateUI() {
       const spread = spreads[currentSpreadIndex];
       const pageLeftNum = spread.leftIndex + 1;
       const pageRightNum = spread.rightIndex ? spread.rightIndex + 1 : pageLeftNum;
+      const mobileLayout = isMobileLayout();
 
-      document.getElementById('open-pages-label').innerText = `${pageLeftNum} - ${pageRightNum}`;
+      document.getElementById('open-pages-label').innerText = mobileLayout
+        ? `${currentPageIndex + 1}`
+        : `${pageLeftNum} - ${pageRightNum}`;
+      document.getElementById('pages-label').innerText = mobileLayout ? 'Página' : 'Páginas';
       document.getElementById('total-pages-label').innerText = `de ${rawPages.length}`;
-      document.getElementById('spread-slider').max = spreads.length;
-      document.getElementById('spread-slider').value = currentSpreadIndex + 1;
+      document.getElementById('spread-slider').max = mobileLayout ? rawPages.length : spreads.length;
+      document.getElementById('spread-slider').value = mobileLayout ? currentPageIndex + 1 : currentSpreadIndex + 1;
 
       // Atualiza o título no rodapé
-      const title = spread.leftPage.chapter || spread.leftPage.title;
+      const currentPage = mobileLayout ? rawPages[currentPageIndex] : spread.leftPage;
+      const title = currentPage.chapter || currentPage.title;
       document.getElementById('current-spread-title').innerText = title;
     }
 
@@ -1244,9 +1275,15 @@
 
       synth.cancel();
 
+      const mobileLayout = isMobileLayout();
+      const currentPageContainer = currentPageIndex % 2 === 0
+        ? document.getElementById('left-page-container')
+        : document.getElementById('right-page-container');
       const leftText = document.getElementById('left-page-container').innerText || '';
       const rightText = document.getElementById('right-page-container').innerText || '';
-      const fullSpreadText = `${leftText}. ${rightText}`;
+      const fullSpreadText = mobileLayout
+        ? currentPageContainer.innerText || ''
+        : `${leftText}. ${rightText}`;
 
       if (!fullSpreadText.trim()) return;
 
@@ -1261,7 +1298,7 @@
       utterance.onstart = function() {
         isSpeaking = true;
         togglePlayIcons(true);
-        updateTTSStatus("Lendo páginas abertas...");
+        updateTTSStatus(mobileLayout ? "Lendo página aberta..." : "Lendo páginas abertas...");
       };
 
       utterance.onend = function() {
@@ -1328,6 +1365,15 @@
     }
 
     function setupEvents() {
+      let wasMobileLayout = isMobileLayout();
+      window.addEventListener('resize', () => {
+        const mobileLayout = isMobileLayout();
+        if (mobileLayout !== wasMobileLayout) {
+          wasMobileLayout = mobileLayout;
+          renderSpread();
+        }
+      });
+
       document.addEventListener('keydown', (e) => {
         if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return;
         if (e.key === 'ArrowRight') nextSpread();
