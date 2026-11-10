@@ -63,6 +63,14 @@
       min-height: 0;
     }
 
+    .page-body-content {
+      overflow: hidden;
+    }
+
+    .page-footer {
+      flex-shrink: 0;
+    }
+
     /* Container 3D do Livro Aberto */
     .book-viewport {
       perspective: 2500px;
@@ -71,6 +79,7 @@
       min-height: 0;
       max-height: 100%;
     }
+
 
     /* O Livro Aberto com duas páginas lado a lado */
     .open-book {
@@ -97,7 +106,7 @@
       background-size: 20px 20px;
       box-shadow: inset -18px 0 25px -10px rgba(0, 0, 0, 0.18);
       border-right: 1px solid rgba(0, 0, 0, 0.08);
-      overflow-y: auto;
+      overflow: hidden;
       position: relative;
     }
 
@@ -110,7 +119,7 @@
       background-size: 20px 20px;
       box-shadow: inset 18px 0 25px -10px rgba(0, 0, 0, 0.18);
       border-left: 1px solid rgba(0, 0, 0, 0.08);
-      overflow-y: auto;
+      overflow: hidden;
       position: relative;
     }
 
@@ -188,21 +197,6 @@
       filter: drop-shadow(1px 2px 1px rgba(0,0,0,0.3));
     }
 
-    /* Custom Scrollbars para as páginas */
-    .book-page-left::-webkit-scrollbar,
-    .book-page-right::-webkit-scrollbar {
-      width: 5px;
-    }
-    .book-page-left::-webkit-scrollbar-track,
-    .book-page-right::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.02);
-    }
-    .book-page-left::-webkit-scrollbar-thumb,
-    .book-page-right::-webkit-scrollbar-thumb {
-      background: rgba(0,0,0,0.2);
-      border-radius: 4px;
-    }
-
     /* Ajuste para mobile (Página única quando a tela for muito pequena) */
     @media (max-width: 768px) {
       .open-book {
@@ -227,10 +221,7 @@
         overflow: hidden;
       }
       .page-body-content {
-        overflow-y: auto;
-      }
-      .page-footer {
-        flex-shrink: 0;
+        overflow: hidden;
       }
       .book-spine-center {
         display: none;
@@ -507,14 +498,15 @@
           <div class="space-y-4 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <h2 class="font-display text-xl sm:text-2xl font-bold text-brand-teal mb-3 pb-2 border-b border-teal-100">INTRODUÇÃO</h2>
             
-            <p>Quando pensei nesta antologia, queria que os alunos de Psicologia tivessem a experiência de ver um livro com o próprio nome, porque, por já ter vivido isso em outras antologias, sei o quanto essa experiência muda a relação de alguém com os estudos e dá ânimo para continuar escrevendo e aprendendo.</p>
+            <p>Quando pensei nesta antologia, meu objetivo era proporcionar aos alunos de Psicologia a experiência de ver um livro com o próprio nome. Por já ter vivido isso em outras antologias, sei o quanto a escrita muda a relação de alguém com os estudos e dá ânimo para continuar produzindo e aprendendo.</p>
             
-            <p>Pedi textos opinativos, escritos por quem está vivendo a psicologia por dentro, e deixei cada autor livre para escolher o tema e o jeito de contar, sem as regras de um artigo científico, o que acabou mostrando uma psicologia bem mais diversa do que a que aparece nos manuais. Os capítulos foram escritos para os próprios alunos, para as famílias e os amigos que acompanharam esse caminho e para quem mais tiver curiosidade sobre a profissão.</p>
-            
-            <p>Na clínica, aprendi que quem escuta também carrega as próprias perguntas, e ler estes textos me lembrou disso várias vezes, porque por trás de cada estudante que se prepara para cuidar do outro existe alguém com dúvidas sobre si, tentando entender a própria história enquanto aprende a acolher a dos outros.</p>
+            <p>São textos opinativos, escritos por quem está vivendo a Psicologia por dentro, e cada autor foi livre para escolher o tema e o jeito de contar, sem as regras de um artigo científico. Isso acabou mostrando uma Psicologia bem mais diversa do que a que aparece em artigos. Os capítulos foram escritos para alunos de Psicologia e para quem mais tiver curiosidade sobre a profissão.</p>
+
+            <p>Na clínica, aprendi que quem escuta também carrega as próprias perguntas. Ler estes textos me lembrou disso várias vezes, porque, por trás de cada estudante que está se preparando para cuidar do outro, existe alguém com dúvidas sobre si, tentando entender a própria história enquanto aprende a acolher a dor de outras pessoas.</p>
 
             <div class="pt-4 mt-4 border-t border-gray-200 text-right font-sans">
               <p class="font-bold text-gray-950 font-display">Laerte Bach</p>
+              <p class="text-[11px] text-gray-500">@psi.laertebach</p>
               <p class="text-[11px] text-gray-500">Organizador da Obra</p>
             </div>
           </div>
@@ -529,7 +521,7 @@
           <div class="h-full flex flex-col justify-between font-sans">
             <div>
               <h2 class="font-display text-xl sm:text-2xl font-bold text-brand-wine mb-3 pb-2 border-b border-rose-100">SUMÁRIO</h2>
-              <div class="space-y-1 text-xs overflow-y-auto max-h-[55vh] pr-1">
+              <div class="space-y-1 text-xs">
                 
                 <button onclick="jumpToPage(5)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
                   <span class="font-medium group-hover:text-brand-teal">1. O que faz a Psicologia ser tão única? — <em class="text-gray-500 font-normal">Amanda Luz</em></span>
@@ -582,7 +574,7 @@
                 </button>
 
                 <button onclick="jumpToPage(57)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
-                  <span class="font-medium group-hover:text-brand-teal">11. Terapia assistida por cães — <em class="text-gray-500 font-normal">Jeferson Lima</em></span>
+                  <span class="font-medium group-hover:text-brand-teal">11. Terapia assistida por cães e a Psicologia — <em class="text-gray-500 font-normal">Jeferson Lima</em></span>
                   <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 57</span>
                 </button>
 
@@ -592,7 +584,7 @@
                 </button>
 
                 <button onclick="jumpToPage(67)" class="w-full text-left p-1.5 rounded hover:bg-amber-100/70 transition flex justify-between items-baseline group">
-                  <span class="font-medium group-hover:text-brand-teal">13. A paixão que não estava nos planos — <em class="text-gray-500 font-normal">Camila Maders</em></span>
+                  <span class="font-medium group-hover:text-brand-teal">13. A paixão que não estava nos planos: quando a docência nos encontra — <em class="text-gray-500 font-normal">Camila Maders</em></span>
                   <span class="font-bold text-gray-400 group-hover:text-brand-teal ml-1">Pág. 67</span>
                 </button>
 
@@ -621,7 +613,7 @@
 
             <p>Antes de entrar na graduação, a Psicologia era, aos meus olhos com quinze anos, um sonho. Eu imaginava uma profissão voltada para o aconselhamento, para ouvir pessoas e ajudá-las a encontrar respostas para aquilo que, sozinhas, não conseguissem compreender. Naquela época, inclusive, meu maior objetivo era trabalhar com psicoterapia de casal. Eu tinha uma ideia interessante sobre a profissão, mas ainda muito limitada.</p>
 
-            <p>Foi justamente nesse período, aos quinze anos, que comecei a fazer terapia. Ser paciente mudou a forma como eu enxergava a Psicologia. Pela primeira vez, deixei de imaginar a profissão apenas de fora e passei a conhecê-la de outro lugar, o lugar de quem chega com dúvidas, sentimentos, dificuldades e, muitas vezes, sem saber exatamente como explicar aquilo que está vivendo.</p>
+            <p>Foi justamente nesse período, aos quinze anos, que comecei a fazer terapia. Ser paciente mudou a forma como eu enxergava a Psicologia. Pela primeira vez, deixei de imaginar a profissão apenas de fora e passei a conhecê-la de outro lugar: o lugar de quem chega com dúvidas, sentimentos, dificuldades e, muitas vezes, sem saber exatamente como explicar aquilo que está vivendo.</p>
           </div>
         `
       },
@@ -631,11 +623,11 @@
         author: 'Amanda Lima Cardoso da Luz',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
-            <p>Quando cheguei à primeira sessão, eu não sabia como funcionava e cheguei extremamente nervosa, não sabia se era só sentar e muito menos o que falar, foi uma experiência de certa forma estranha até eu começar a ver que isso realmente me trazia bons resultados e me fez desenvolver como pessoa e principalmente entender onde queria chegar. O contato como paciente não me ajudou apenas a melhorar meu psicológico e emocional que estavam horríveis, mas me fez naquela época reencontrar a Amanda que agora está tirando mais um sonho do papel.</p>
+            <p>Quando cheguei à primeira sessão, não sabia como funcionava. Estava extremamente nervosa: não sabia se era só sentar, muito menos o que falar. Foi uma experiência um tanto estranha, até eu começar a perceber que a terapia me trazia bons resultados, me ajudava a me desenvolver como pessoa e, principalmente, a entender onde queria chegar. Naquela época, o contato como paciente não me ajudou apenas a cuidar da minha saúde psicológica e emocional, que estavam muito abaladas; também me permitiu reencontrar a Amanda que agora está tirando mais um sonho do papel.</p>
 
-            <p>Isso tudo me fez pesquisar, ler livros, conhecer teorias, descobrir diferentes abordagens e compreender que a Psicologia não oferecia apenas uma maneira de olhar para o ser humano. Existiam diferentes formas de compreender comportamentos, emoções, relações e experiências. Quanto mais eu estudava, mais percebia que aquilo que eu imaginava ser uma profissão simples de "aconselhar pessoas" carregava uma responsabilidade enorme.</p>
+            <p>Tudo isso me levou a pesquisar, ler livros, conhecer teorias e descobrir diferentes abordagens. Compreendi que a Psicologia não oferecia apenas uma maneira de olhar para o ser humano: existiam diferentes formas de compreender comportamentos, emoções, relações e experiências. Quanto mais eu estudava, mais percebia que aquilo que imaginava ser uma profissão simples de “aconselhar pessoas” carregava uma enorme responsabilidade.</p>
 
-            <p>E hoje vejo que foi aí que a Psicologia começou a se tornar ainda mais especial para mim. Mas, aos dezessete anos, comecei a questionar se a Psicologia realmente combinava comigo. Por mais que aquele sonho continuasse existindo, havia coisas com as quais eu ainda não sabia lidar, principalmente com o meu próprio emocional. E foi nessa época que ouvi uma frase que, de certa forma, ficou marcada em mim:</p>
+            <p>Hoje vejo que foi aí que a Psicologia começou a se tornar ainda mais especial para mim. Mas, aos dezessete anos, comecei a questionar se ela realmente combinava comigo. Por mais que aquele sonho continuasse existindo, havia coisas com as quais eu ainda não sabia lidar, principalmente com as minhas próprias emoções. Foi nessa época que ouvi uma frase que, de certa forma, ficou marcada em mim:</p>
 
             <blockquote class="p-3 border-l-4 border-brand-teal bg-teal-50/60 italic text-gray-800 text-xs rounded-r">
               "Como pode existir um psicólogo sem psicológico?"
@@ -649,11 +641,11 @@
         author: 'Amanda Lima Cardoso da Luz',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
-            <p>Quando pessoas próximas me disseram essa frase em uma conversa cotidiana de uma forma engraçada porém que fez com que me questionasse, eles não sabiam e nem eu mesma sabia o quanto aquela frase me faria pensar e se tornaria meu impulso inicial, mas por outro lado foi aí que eu comecei a pensar que não era capaz. E que a Psicologia fosse mesmo meu sonho, mas não necessariamente o meu caminho. Então iniciei outro curso, mas bastou o primeiro dia para perceber que não era o que eu queria.</p>
+            <p>Pessoas próximas disseram essa frase numa conversa cotidiana, em tom de brincadeira, mas ela me fez questionar. Elas não sabiam — e nem eu mesma sabia — o quanto aquelas palavras me fariam pensar e se tornariam meu impulso inicial. Por outro lado, comecei a acreditar que talvez não fosse capaz; que a Psicologia pudesse ser mesmo meu sonho, mas não necessariamente o meu caminho. Então, iniciei outro curso, mas bastou o primeiro dia para perceber que não era o que eu queria.</p>
 
-            <p>E no outro dia voltei atrás e busquei o curso de Psicologia, mas com a certeza de que precisava descobrir se aquele sonho realmente era meu. E aqui estou eu. Aos vinte e um anos, quase concluindo a graduação, olhando para trás e percebendo que aquela menina de quinze anos tinha uma visão muito pequena da profissão que um dia desejou exercer.</p>
+            <p>No dia seguinte, voltei atrás e busquei o curso de Psicologia, mas com a certeza de que precisava descobrir se aquele sonho realmente era meu. E aqui estou eu: aos vinte e um anos, quase concluindo a graduação, olhando para trás e percebendo que aquela menina de quinze anos tinha uma visão muito limitada da profissão que um dia desejou exercer.</p>
 
-            <p>Hoje, se eu pudesse voltar à época em que me disseram essa frase, eu agradeceria pelo impulso que me fez descobrir o que eu realmente quero fazer da minha vida, talvez não na clínica, pois ainda estou me descobrindo. Inclusive, foi neste semestre que tive o primeiro contato com a clínica mas que, de qualquer forma, me fez conhecer esse mundo interessante que se chama Psicologia.</p>
+            <p>Hoje, se pudesse voltar à época em que me disseram essa frase, agradeceria pelo impulso que me ajudou a descobrir o que realmente quero fazer da minha vida. Talvez não seja na clínica, pois ainda estou me descobrindo. Foi neste semestre que tive meu primeiro contato com a clínica e, de qualquer forma, essa experiência me permitiu conhecer melhor esse mundo interessante que se chama Psicologia.</p>
           </div>
         `
       },
@@ -663,11 +655,11 @@
         author: 'Amanda Lima Cardoso da Luz',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
-            <p>E essa Psicologia é, antes de tudo, uma forma de olhar para o ser humano com um olhar que exige, além da empatia, conhecimento científico, para não se basear apenas em uma relação de amizade, além de ética, responsabilidade, escuta e, principalmente, respeito pela diferença das pessoas, é compreender que duas pessoas podem passar por situações semelhantes e vivenciá-las de maneiras completamente diferentes.</p>
+            <p>Essa Psicologia é, antes de tudo, uma forma de olhar para o ser humano. Um olhar que exige, além de empatia, conhecimento científico — para não se basear apenas numa relação de amizade —, ética, responsabilidade, escuta e, principalmente, respeito pelas diferenças entre as pessoas. É compreender que duas pessoas podem passar por situações semelhantes e vivenciá-las de maneiras completamente diferentes.</p>
 
             <p>E é isso que, aos meus olhos, torna a Psicologia tão única: estudamos o comportamento humano enquanto também somos seres humanos. Aprendemos sobre emoções enquanto sentimos as nossas, estudamos relações enquanto construímos as nossas. Aprendemos sobre sofrimento, desenvolvimento, personalidade, aprendizagem e tantos outros fenômenos enquanto também estamos vivendo nossas próprias experiências.</p>
 
-            <p>Isso não significa que um psicólogo precisa ser perfeito, ter todas as respostas ou nunca enfrentar suas próprias dificuldades. Mas reconhecer a própria humanidade talvez seja uma das coisas que nos permite compreender a dimensão da responsabilidade de cuidar do outro enquanto ser humano.</p>
+            <p>Isso não significa que um psicólogo precise ser perfeito, ter todas as respostas ou nunca enfrentar as próprias dificuldades. Mas reconhecer a própria humanidade talvez seja uma das coisas que nos permitem compreender a dimensão da responsabilidade de cuidar do outro enquanto ser humano.</p>
           </div>
         `
       },
@@ -677,9 +669,9 @@
         author: 'Amanda Lima Cardoso da Luz',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
-            <p>A Psicologia me ensinou que não precisamos ser feitos de certezas para escolher essa profissão. Precisamos estar dispostos a aprender continuamente. Hoje, quando penso em mim aos quinze anos, quando sonhava em trabalhar com psicoterapia de casal sem sequer compreender a dimensão da profissão que estava escolhendo, sinto que não estava errada, apenas ainda não conhecia o tamanho do sonho que tinha.</p>
+            <p>A Psicologia me ensinou que não precisamos estar cheios de certezas para escolher essa profissão. Precisamos estar dispostos a aprender continuamente. Hoje, quando penso em mim aos quinze anos, sonhando em trabalhar com psicoterapia de casal sem sequer compreender a dimensão da profissão que estava escolhendo, sinto que não estava errada; apenas ainda não conhecia o tamanho do sonho que tinha.</p>
 
-            <p>E hoje quero continuar conhecendo a mim mesma, o outro e tudo aquilo que ainda existe para aprender. E a Psicologia é única justamente porque ela nunca termina, existe sempre uma nova pergunta, uma nova história e uma nova pessoa que nos traz novas possibilidades de compreender aquilo que até então era incompreensível.</p>
+            <p>Quero continuar conhecendo a mim mesma, o outro e tudo aquilo que ainda existe para aprender. A Psicologia é única justamente porque nunca termina: existe sempre uma nova pergunta, uma nova história e uma nova pessoa que nos trazem novas possibilidades de compreender aquilo que até então parecia incompreensível.</p>
 
             <div class="pt-4 text-center text-[11px] text-gray-400 font-sans border-t border-gray-200">
               Fim do Capítulo 1
@@ -697,15 +689,15 @@
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-coral">Capítulo 2</span>
             <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">CORAGEM PARA FICAR</h2>
-            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Maria Luiza Ribeiro dos Santos (Luizasantossl17@gmail.com)</p>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Maria Luiza Ribeiro dos Santos (<a href="mailto:Luizasantossl17@gmail.com" class="underline">Luizasantossl17@gmail.com</a>)</p>
 
-            <p>Você se considera uma pessoa corajosa? Eu, particularmente, me identifico com uma frase da autoria de Tati Bernardi que diz: "Tenho medos bobos e coragens absurdas". Acredita que eu pego um sapo na mão, porém morro de medo de lagartas? Quando digo "morro", não é exagero. Só de lembrar, já me arrepiei toda.</p>
+            <p>Você se considera uma pessoa corajosa? Eu, particularmente, me identifico com uma frase da autoria de Tati Bernardi que diz: “Tenho medos bobos e coragens absurdas”. Acredita que eu pego um sapo na mão, porém morro de medo de lagartas? Quando digo “morro”, não é exagero. Só de lembrar, já me arrepiei toda.</p>
 
-            <p>E sabe o que mais? Hoje mesmo eu poderia arrumar as malas e ir para qualquer lugar do mundo sozinha. Em contrapartida, eu não tenho um pingo de coragem para tirar um tempo e olhar para dentro de mim, reconhecer minhas limitações, corrigir algumas coisas e permitir que algumas feridas se curem.</p>
+            <p>E sabe o que mais? Hoje mesmo eu poderia arrumar as malas e ir para qualquer lugar do mundo sozinha. Em contrapartida, não tenho um pingo de coragem para tirar um tempo e olhar para dentro de mim, reconhecer minhas limitações, corrigir algumas coisas e permitir que algumas feridas se curem.</p>
 
-            <p>Não vejo problema algum em querer conhecer a Torre Eiffel ou explorar os lugares mais distantes do mundo. Mas não te soa estranho ser um eterno morador de si mesmo e, ainda assim, ser estranho na própria casa?</p>
+            <p>Não vejo problema algum em querer conhecer a Torre Eiffel ou explorar os lugares mais distantes do mundo. Mas não te soa estranho ser uma eterna moradora de si mesma e, ainda assim, ser estranha na própria casa?</p>
 
-            <p>Por muito tempo, corri de mim mesma como se fosse possível, mas, para onde quer que eu fosse, eu estava lá. Sempre que percebia algum desconforto ou alguém pontuava algo a meu respeito, eu ignorava e seguia em frente. Muitas pessoas ao meu redor comentavam com frequência sobre a minha péssima comunicação em determinados ambientes e sobre como eu precisava melhorar minha socialização. Mas nunca considerei necessário melhorar nenhum desses aspectos. Até que comecei a fazer faculdade e vi o meu mundo cair.</p>
+            <p>Por muito tempo, corri de mim mesma como se isso fosse possível, mas, para onde quer que eu fosse, eu estava lá. Sempre que percebia algum desconforto ou alguém pontuava algo a meu respeito, eu ignorava e seguia em frente. Muitas pessoas ao meu redor comentavam com frequência sobre a minha dificuldade de comunicação em determinados ambientes e sobre como eu precisava melhorar minha socialização. Mas nunca considerei necessário melhorar nenhum desses aspectos. Até que comecei a fazer faculdade e vi o meu mundo cair.</p>
           </div>
         `
       },
@@ -717,9 +709,9 @@
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <p>No primeiro dia de aula, começaram as apresentações, e a professora pediu que disséssemos por que tínhamos escolhido o curso de Psicologia. Conforme todos iam se apresentando e chegava a minha vez, eu tremia, minhas mãos suavam e eu torcia para que, por algum motivo, a minha vez fosse pulada. Repassei a resposta várias vezes na cabeça para não errar na hora e não gaguejar. No fim, a única coisa que falei corretamente foi meu nome e minha idade. E eu queria, por tudo, sumir dali.</p>
 
-            <p>Apesar disso, continuei indo às aulas. A semana foi passando, e eu observava como a dinâmica da sala era totalmente diferente de todas de que já havia participado. Havia uma boa participação dos alunos. Eu não conseguia acompanhar. Eles se mostravam bem desenvoltos, com facilidade para expor suas dúvidas e questionamentos. Acabei me sentindo inferior em relação a eles e menos capaz.</p>
+            <p>Apesar disso, continuei indo às aulas. A semana foi passando, e eu observava como a dinâmica da sala era totalmente diferente de todas as outras de que já havia participado. Os alunos participavam bastante, e eu não conseguia acompanhar. Eles se mostravam desenvoltos, com facilidade para expor suas dúvidas e questionamentos. Acabei me sentindo inferior a eles e menos capaz.</p>
 
-            <p>Uma de nossas professoras gosta muito de dinamizar as aulas, e os métodos dela são ótimos. Em uma de nossas aulas, ela trabalhou em formato de roda para irmos nos acostumando a ficar cara a cara com o paciente no setting terapêutico. Para mim, era o equivalente à roda da morte. A cada pergunta que a professora direcionava à turma, o meu coração ia à boca e voltava. Tinha medo de que me pedisse para responder e eu não conseguisse responder corretamente ou simplesmente dizer que não sabia a resposta e ser vista como burra pelos demais.</p>
+            <p>Uma de nossas professoras gosta muito de dinamizar as aulas, e os métodos dela são ótimos. Em uma delas, organizou a turma em roda para irmos nos acostumando a ficar cara a cara com o paciente no <em>setting</em> terapêutico. Para mim, era o equivalente à roda da morte. A cada pergunta que a professora direcionava à turma, meu coração ia à boca e voltava. Tinha medo de que me pedisse para responder e eu não conseguisse, ou de simplesmente dizer que não sabia a resposta e ser vista como burra pelos demais.</p>
           </div>
         `
       },
@@ -729,9 +721,10 @@
         author: 'Maria Luiza Ribeiro dos Santos',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
-            <p>Diante de tudo o que vivi naquela semana, tive uma crise. Questionei a escolha do curso e se ao menos deveria ter começado a fazer faculdade. Quis parar, convencida de que aquilo não era para mim. Nos dias seguintes, não fui às aulas; decidi ficar em casa. Alguns dias depois, retornei, mas não gostei de todo o desconforto que aquele ambiente me proporcionava e voltei a ficar em casa. Chegou a semana de provas, e eu faltei. Não fiz nenhuma das avaliações. Para mim, era só mais um momento de ser medida, pesada e avaliada.</p>
+            <p>Diante de tudo o que vivi naquela semana, tive uma crise. Questionei a escolha do curso e se ao menos deveria ter começado a fazer faculdade. Quis parar, convencida de que aquilo não era para mim. Nos dias seguintes, não fui às aulas; decidi ficar em casa. Alguns dias depois, retornei, mas não gostei de todo o desconforto que aquele ambiente me proporcionava e voltei a ficar em casa. Chegou a semana de provas, e faltei. Não fiz nenhuma das avaliações. Para mim, era só mais um momento de ser medida, pesada e avaliada.</p>
 
             <p>Ao olhar para trás, reconheço a legitimidade de tudo o que senti: o medo, a sensação de inferioridade, a ansiedade e todas as dúvidas que me envolveram. Mas também reconheço um padrão que me acompanha há todos esses anos: a fuga. Quando tudo se torna desconfortável demais, quando me sinto vulnerável demais, quando toda aquela imagem de grandeza que venho pintando é ameaçada, minha primeira reação é fugir. Porque ficar implicaria admitir que não dei conta, e isso vai contra toda a versão da menina que resolve tudo.</p>
+
           </div>
         `
       },
@@ -741,11 +734,21 @@
         author: 'Maria Luiza Ribeiro dos Santos',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
-            <p>O escritor Robert Fisher, no livro <em>O cavaleiro preso na armadura</em>, nos apresenta um cavaleiro que fica o tempo todo vestido com sua armadura, motivado pelo desejo de ser visto como gentil e bondoso, até que fica preso a ela. Quando procura ajuda para removê-la, depara-se com o sábio Merlin, que o confronta dizendo que ele mesmo a colocou porque tinha medo. O cavaleiro refuta a afirmação e não admite. Quem, afinal, quer admitir que tem medo?</p>
+            <p>O escritor Robert Fisher, no livro <em>O cavaleiro preso na armadura</em>, nos apresenta um cavaleiro que fica o tempo todo vestido com sua armadura, motivado pelo desejo de ser visto como gentil e bondoso, até que fica preso a ela. Quando procura ajuda para removê-la, depara-se com o sábio Merlin, que o confronta, dizendo que ele mesmo a colocou porque tinha medo. O cavaleiro refuta a afirmação e não admite. Quem, afinal, quer admitir que tem medo?</p>
 
-            <p>As circunstâncias que nos cercam desde a infância deixam impregnada em nós a ideia de que sentir medo é algo ruim, de que admitir que temos medo pode resultar em exclusão, julgamentos negativos e até mesmo repressão. Com o passar do tempo, vestimos armaduras para esconder nossas fragilidades e passamos a enxergá-las como algo de errado em nós.</p>
+            <p>As circunstâncias que nos cercam desde a infância deixam impregnada em nós a ideia de que sentir medo é algo ruim e de que admitir que temos medo pode resultar em exclusão, julgamentos negativos e até mesmo repressão. Com o passar do tempo, vestimos armaduras para esconder nossas fragilidades e passamos a enxergá-las como algo de errado em nós.</p>
 
-            <p>Outras armaduras surgem do desejo de manter a imagem que as pessoas construíram a nosso respeito ao longo do tempo. Então, todo o nosso esforço passa a girar em torno da manutenção dessa imagem, para não provocar frustração ou rejeição.</p>
+            <p>Outras armaduras surgem do desejo de manter a imagem que as pessoas construíram a nosso respeito ao longo do tempo, como a da menina ou do menino que não dá trabalho, da pessoa inteligente, boazinha ou corajosa. Então, todo o nosso esforço passa a girar em torno da manutenção dessa imagem, para não provocar frustração, rejeição ou desapontamento. Agradar diminui o risco de rejeição e, por isso, seguimos pagando esse preço.</p>
+
+            <p>Em meio a tudo isso, esquecemos o fator humano, que, por si só, derruba qualquer possibilidade de perfeição. Ser alguém corajoso não significa estar proibido de sentir medo, assim como ser inteligente não significa ter todas as respostas. Essa dificuldade de admitir minhas próprias limitações foi um dos fatores que influenciaram minha ausência na faculdade. Eu não conseguia admitir que não sabia os assuntos apresentados em aula. E, sim, era meu primeiro contato com aquelas matérias. Eu sou inteligente: como posso ainda não saber disso?</p>
+
+            <p>Está sendo um desafio para mim deixar este capítulo assim. Todos os dias, ao acordar, logo penso em desfazer toda essa narrativa, que me descreve em um momento de tamanha fragilidade, fracassando diante de algo que, por assim dizer, pode parecer simples. Mas insisto em deixá-lo assim, porque estou decidida a quebrar esse padrão que vem me quebrando.</p>
+
+            <p>Desde os acontecimentos que narrei anteriormente, algumas perguntas vêm me atravessando:</p>
+
+            <p>“Ainda te é útil fugir?”</p>
+
+            <p>“Essa armadura que você usa para esconder suas fragilidades, seus medos, suas dúvidas, suas opiniões e seus defeitos está realmente te protegendo ou te privando de oportunidades extraordinárias?”</p>
           </div>
         `
       },
@@ -775,27 +778,19 @@
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-gold">Capítulo 3</span>
             <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">BARREIRAS INVISÍVEIS: MATERNIDADE E PERMANÊNCIA NO ENSINO SUPERIOR</h2>
-            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Gabrielly Mayze Steinheuser Valerio (steinheuserg@gmail.com)</p>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Gabrielly Mayze Steinheuser Valerio (<a href="mailto:steinheuserg@gmail.com" class="underline">steinheuserg@gmail.com</a>)</p>
 
             <p>Escrevo este texto enquanto amamento meu filho Isaac. Talvez não exista uma imagem mais fiel da minha experiência acadêmica desde que me tornei mãe. Hoje, estudar acontece entre mamadas, despertares, trabalho, estágio e todas as outras funções que continuo desempenhando.</p>
 
             <p>Sempre quis ser mãe. Ao mesmo tempo, sendo filha de uma mãe solo que batalhou muito para criar a mim e ao meu irmão sem ter tido muitas oportunidades de estudo, cresci entendendo a educação como possibilidade de transformação. Levei alguns anos até me encontrar no curso de Psicologia e sentir que estava no caminho certo.</p>
 
             <p>Conquistei uma bolsa integral por meio do vestibular, ficando entre os melhores colocados. Isso foi decisivo para que eu pudesse estudar. Tenho orgulho dessa conquista, mas também reconheço que provavelmente nem teria iniciado uma graduação particular se precisasse pagar mensalidade.</p>
-          </div>
-        `
-      },
-      {
-        type: 'content',
-        chapter: 'Barreiras invisíveis: Maternidade no Ensino Superior',
-        author: 'Gabrielly Mayze Steinheuser Valerio',
-        html: `
-          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
-            <p>No terceiro ano do curso, engravidei. A gestação não havia sido planejada para aquele momento, mas continuei trabalhando, frequentando as aulas e cumprindo os compromissos de estágio. Isaac nasceu em dezembro e, dois meses depois, as aulas retornaram. Eu tinha direito ao afastamento, mas optei por voltar. Como ele estava em aleitamento materno exclusivo, eu retirava leite e o deixava com o pai durante as poucas horas em que precisava estar na faculdade.</p>
+
+            <p>Desde o começo, eu queria aproveitar tudo o que a faculdade pudesse oferecer. Participava de atividades, congressos e palestras e imaginava que um dia também poderia ocupar esses espaços como profissional. A maternidade fazia parte dos meus planos, mas deveria vir depois da graduação, quando eu já tivesse alguma estabilidade.</p>
+
+            <p>No terceiro ano do curso, engravidei. A gestação não havia sido planejada para aquele momento, mas continuei trabalhando, frequentando as aulas e cumprindo os compromissos de estágio. Minha condição permitiu essa continuidade. Isaac nasceu em dezembro e, dois meses depois, as aulas retornaram. Eu tinha direito ao afastamento, mas optei por voltar. Como ele estava em aleitamento materno exclusivo, eu retirava leite e o deixava com o pai durante as poucas horas em que precisava estar na faculdade.</p>
 
             <p>Mesmo assim, senti o peso do julgamento por deixar um bebê tão pequeno sem a mãe. Ele estava com o próprio pai. Foi quando percebi que, depois que uma mulher se torna mãe, algumas escolhas parecem precisar de justificativa.</p>
-
-            <p>Foi depois da maternidade que compreendi que ter dias disponíveis no calendário não significa ter horas disponíveis para estudar. Um prazo que termina no domingo pode parecer um prazo que inclui todo o final de semana. Mas finais de semana também significam cuidar do meu filho e realizar outras tarefas.</p>
           </div>
         `
       },
@@ -805,9 +800,39 @@
         author: 'Gabrielly Mayze Steinheuser Valerio',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>Com o passar dos meses, pensei algumas vezes em trancar a graduação. Ao mesmo tempo, meu filho também se tornou uma razão para continuar. Sempre fui pobre e hoje vivo uma realidade melhor do que aquela em que cresci. Quero poder proporcionar a ele oportunidades que eu não tive.</p>
+
+            <p>Enquanto escrevia este capítulo, percebi que também sentia necessidade de justificar minhas próprias condições. Tenho companheiro presente, rede de apoio e bolsa integral. Tudo isso facilitou minha permanência. Mas percebi que estava quase tentando provar que tinha o direito de dizer que foi difícil.</p>
+
+            <p>Hoje entendo que essas duas coisas podem coexistir. Posso reconhecer as condições que me favoreceram sem apagar o esforço necessário para continuar. Posso saber que outras mães enfrentam situações muito mais difíceis sem diminuir aquilo que também foi difícil para mim.</p>
+
+            <p>Atualmente, concilio o cuidado com meu filho, o trabalho, as disciplinas e o estágio obrigatório. Muitas vezes, termino as atividades depois que ele dorme, sabendo que acordará durante a madrugada.</p>
+
+            <p>Foi depois da maternidade que compreendi que ter dias disponíveis no calendário não significa ter horas disponíveis para estudar. Um prazo que termina no domingo pode parecer um prazo que inclui todo o final de semana. Mas finais de semana também significam cuidar do meu filho, estar com minha família e realizar outras tarefas. Muitas vezes, a oportunidade real de estudar aparece somente depois que ele adormece.</p>
+
+            <p>Em determinado período, atrasei algumas entregas e fui cobrada por isso. Aquilo me atingiu porque sempre fui muito comprometida. Mas a maternidade não é um compromisso que pode ser colocado em pausa quando existe uma atividade para entregar.</p>
+
+            <p>Talvez essa seja uma das partes mais invisíveis da maternidade no contexto acadêmico. Quem recebe um trabalho entregue vê apenas o trabalho. Quem me encontra em sala vê a acadêmica. Mas, antes de eu conseguir ocupar esses lugares, existe toda uma estrutura de cuidados acontecendo: o bebê que mamou antes de eu sair, alguém que ficou com ele, a noite interrompida, o computador fechado porque ele acordou e o trabalho retomado depois. A faculdade continua acontecendo normalmente, mas eu já não chego até ela da mesma maneira.</p>
+          </div>
+        `
+      },
+      {
+        type: 'content',
+        chapter: 'Barreiras invisíveis: Maternidade no Ensino Superior',
+        author: 'Gabrielly Mayze Steinheuser Valerio',
+        html: `
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
+            <p>Antes de ser mãe, eu acreditava que, se quisesse muito alguma coisa, bastava me dedicar mais. Hoje entendo que esforço não produz tempo infinito. Posso me organizar, planejar e ter disciplina. Ainda assim, meu filho pode adoecer, dormir mal ou simplesmente precisar mais de mim naquele dia.</p>
+
+            <p>Mesmo assim, a comparação aparece. Às vezes, observo colegas vivendo aquilo que eu imaginava para esta fase: cursos, congressos, leituras e experiências profissionais. Em alguns momentos, pensei: “Eu estraguei tudo”. É difícil admitir esse pensamento porque ele parece incompatível com o amor que sinto pelo meu filho.</p>
+
+            <p>Posso amar profundamente Isaac e, ao mesmo tempo, sentir falta da trajetória que havia imaginado para mim. A maternidade me ensinou que sentimentos contraditórios podem coexistir.</p>
+
+            <p>Às vezes, me sinto distante da psicóloga que imaginei no início da graduação. Mas talvez eu não esteja me afastando dela; apenas construindo uma versão diferente daquela que imaginei. Hoje penso nas mulheres que atravessam a universidade sem rede de apoio, sem bolsa, sem companheiro presente ou sem condições financeiras: nas mães solo, nas mulheres que precisam trabalhar e estudar, nas que enfrentam uma gestação difícil e nas que acabam abandonando a graduação porque continuar se torna inviável.</p>
+
             <p>Falar sobre maternidade dentro da universidade não significa pedir privilégios. Significa reconhecer que as pessoas não partem das mesmas condições. Um prazo pode ser igual para todos. A disponibilidade para cumpri-lo, não.</p>
 
-            <p>Espero que, quando Isaac crescer e compreender essa parte da nossa história, não enxergue a faculdade como algo que me afastou dele. Espero que compreenda que continuar também foi uma forma de cuidar. Do futuro dele e do meu.</p>
+            <p>Espero que, quando Isaac crescer e compreender essa parte da nossa história, não enxergue a faculdade como algo que me afastou dele. Espero que compreenda que continuar também foi uma forma de cuidar: do futuro dele e do meu.</p>
 
             <div class="pt-4 text-center text-[11px] text-gray-400 font-sans border-t border-gray-200">
               Fim do Capítulo 3
@@ -827,11 +852,21 @@
             <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A HISTÓRIA SEM ELAS: O APAGAMENTO DAS MENTES FEMININAS</h2>
             <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Fernanda Franciele Krasota Machado Fernandes (@fernandafkmachado)</p>
 
-            <p>Sentada na sala de aula, percebo ao meu redor turmas majoritariamente compostas por mulheres, à frente uma professora. Ao olhar a tela do projetor, ao abrir os livros, observo a lista de grandes nomes: Freud, Rogers, Skinner, Maslow.</p>
+            <p>Sentada na sala de aula, percebo ao meu redor turmas majoritariamente compostas por mulheres e, à frente, uma professora. Ao olhar para a tela do projetor e abrir os livros, observo a lista de grandes nomes: Freud, Rogers, Skinner, Maslow.</p>
 
-            <p>Há quinze anos, quando me deparei com a escrita do TCC na faculdade de Filosofia, busquei compreender como as estruturas organizam o mundo. Na época, minha atenção estava voltada a questões como indústria cultural, alienação e estruturas sociais; no entanto, já havia outra questão que me causava certo desconforto e que simplesmente deixei passar. Foram quatro anos de graduação em que raramente ouvi nomes de filósofas mulheres. Hannah Arendt e Simone de Beauvoir eram citadas apenas de passagem.</p>
+            <p>Há quinze anos, quando me deparei com a escrita do TCC na faculdade de Filosofia, busquei compreender como as estruturas organizam o mundo. Na época, minha atenção estava voltada a questões como indústria cultural, alienação e estruturas sociais. No entanto, já havia outra questão que me causava certo desconforto e que simplesmente deixei passar. Foram quatro anos de graduação em que raramente ouvi nomes de filósofas. Hannah Arendt e Simone de Beauvoir eram citadas apenas de passagem.</p>
 
-            <p>O tempo passou e hoje estou no terceiro ano da faculdade de Psicologia. A história se repete, mas dessa vez o desconforto e o incômodo me atravessam de um modo diferente.</p>
+            <p>O tempo passou. Hoje estou no terceiro ano da faculdade de Psicologia. A história se repete, mas, dessa vez, o desconforto e o incômodo me atravessam de um modo diferente.</p>
+
+            <p>Foi uma sensação de <em>déjà-vu</em>, uma mistura de frustração e alerta: como é possível estar vivenciando novamente o apagamento de nomes femininos na história?</p>
+
+            <p>A partir daqui, meu olhar se volta à escrita de mulheres — cientistas, filósofas, psicólogas. Essa inquietação me faz olhar para a própria Psicologia e perguntar: até que ponto a nossa liberdade é refém de uma história que não fomos nós que escrevemos? As estruturas sociais, acadêmicas e políticas, muitas vezes despercebidas e pouco questionadas, moldam as regras da sociedade, nossas vivências e escolhas, e o que aprendemos ou não nas escolas e universidades. Quase tudo nos é apresentado como pronto, e simplesmente aceitamos, sem questionar, sem refletir. Porém, quando olhamos com mais atenção para essas estruturas, o questionamento torna-se inevitável: como chegamos até aqui?</p>
+
+            <p>Quando olho para a história da Psicologia e ouço falar de psicanálise, behaviorismo, humanismo, existencialismo, entre outras correntes, quais nomes aparecem? O fato é que a história da humanidade foi contada sob um único ponto de vista: o dos homens. Foram eles que ocuparam os lugares de poder, registraram os fatos e decidiram o que era importante ou o que devia ser descartado.</p>
+
+            <p>Quantas mentes brilhantes foram esquecidas ao longo do tempo? Não por falta de capacidade ou talento, mas por um sistema feito para deixá-las de fora. Quantas vezes uma mulher fez uma descoberta incrível ao lado de um parceiro e só o nome dele foi parar na capa do livro ou entre os grandes prêmios? Isso ficou escancarado, por exemplo, quando a filósofa Simone de Beauvoir esteve no Brasil e as manchetes dos jornais diziam: “Sartre está no Brasil e trouxe Simone de Beauvoir”<sup>[1]</sup>. Ela, uma das maiores pensadoras do século, foi reduzida a uma acompanhante.</p>
+
+            <p>A teoria dá o nome de <strong>epistemicídio</strong> a esse processo: o apagamento sistemático do saber produzido por grupos marginalizados. O mais angustiante é perceber que isso não ficou no passado. Essa construção desigual continua viva hoje, criando barreiras invisíveis que sufocam a nossa liberdade e o espaço das mulheres. A mensagem implícita para uma estudante e futura profissional é a da dependência intelectual: alimentamos a ideia de que o saber pertence aos homens e sustentamos a sensação de insuficiência.</p>
           </div>
         `
       },
@@ -841,11 +876,19 @@
         author: 'Fernanda Franciele Krasota Machado Fernandes',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
-            <p>A teoria dá o nome de <strong>epistemicídio</strong> a esse processo: o apagamento sistemático do saber produzido por grupos marginalizados. O mais angustiante é perceber que isso não ficou no passado. Essa construção desigual continua viva hoje, criando barreiras invisíveis que sufocam a nossa liberdade e o espaço das mulheres.</p>
+            <p>Como explicar que uma profissão mantida por mulheres continue ensinando uma história contada quase só por homens? A ironia é que a base do cuidado humano sempre passou pelas mãos e mentes femininas. Pensadoras como Edith Stein, ao falar de empatia; Simone de Beauvoir, ao pensar a liberdade; Laura Perls, ao resgatar o corpo na terapia; e Charlotte Bühler, ao estudar o sentido da vida, criaram bases sem as quais a Psicologia hoje seria fria e distante. Nise da Silveira, ao revolucionar a psiquiatria no Brasil, me emociona por sua coragem: enfrentou os métodos psiquiátricos violentos de sua época e transformou o tratamento em saúde mental por meio do afeto e da arte.</p>
 
-            <p>Como explicar que uma profissão mantida por mulheres continue ensinando uma história contada quase só por homens? Pensadoras como Edith Stein, Simone de Beauvoir, Laura Perls e Nise da Silveira revolucionaram a história da psicologia e da psiquiatria no país por meio do afeto e da arte.</p>
+            <p>Contudo, nesses três anos de graduação, lembro-me de sua obra ter sido abordada apenas na exibição do filme <em>Nise: O Coração da Loucura</em>. É sintomático perceber como uma mulher que transformou a história da Psicologia no país acaba sendo reduzida a um evento.</p>
 
-            <p>Superar o epistemicídio é uma necessidade fundamental para que as futuras gerações saibam que a inteligência, o rigor científico e o cuidado humanizado sempre foram, também, marcas da autoria feminina.</p>
+            <p>É preciso repensar os currículos e as grades que formam psicólogas todos os anos, incluindo autoras, pesquisadoras e pensadoras brasileiras e resgatando o princípio de identidade na construção de saberes. Um exemplo é Virginia Leone Bicudo, uma das primeiras psicanalistas do Brasil: mulher negra, socióloga e pioneira ao investigar como as marcas do preconceito, do racismo estrutural e das desigualdades sociais atravessam diretamente a saúde mental e a formação da nossa subjetividade. Ensinar Psicologia nas universidades sem citar autoras como Nise ou Virginia é seguir um roteiro já estruturado nessa escala patriarcal, perpetuando a ideia de que a ciência é feita apenas no exterior por homens europeus. O trabalho dessas pensadoras não foi um “complemento” à Psicologia: elas fundaram perspectivas essenciais para compreendermos quem somos e como nos constituímos enquanto sujeitos.</p>
+
+            <p>É inegável que avançamos. As mulheres deixaram de ser apenas “objetos de estudo”, frequentemente rotuladas no passado como “histéricas”, para se tornarem líderes de pesquisas e criadoras de conhecimento. Mas só ter mulheres ocupando esses espaços não basta. É preciso reescrever os livros e transformar o que é ensinado. Resgatar essas pensadoras é, sobretudo, uma questão de justiça e de reparação histórica. A humanidade só chegou até aqui porque as mulheres também lideraram a caminhada: mesmo que não sejam citadas nos manuais, elas estavam lá, produzindo, escrevendo e transformando a história.</p>
+
+            <p>Está mais do que na hora de a história oficial reconhecer isso. A valorização vai muito além da presença física de mulheres nas universidades: é essencial reescrever os currículos e reparar o apagamento histórico de suas teorias. Ao resgatar o protagonismo de pensadoras na Fenomenologia, na Psicanálise, em toda a Psicologia e em toda a ciência, busca-se instaurar a equidade e oferecer às futuras gerações o direito de saber que a inteligência, o rigor científico e o cuidado humanizado sempre foram também marcas da autoria feminina.</p>
+
+            <p>Superar o epistemicídio é fundamental para que as futuras gerações, ao olharem para os espelhos da história, saibam que a ciência também pertence às mulheres e foi construída com seu protagonismo.</p>
+
+            <p class="pt-2 border-t border-gray-200 text-[10px] text-gray-600"><sup>[1]</sup> A cobertura da imprensa brasileira durante a visita do casal ao país, em 1960, retratou frequentemente Simone de Beauvoir a partir de seu vínculo afetivo com Jean-Paul Sartre, referindo-se a ela de forma recorrente como acompanhante ou “esposa” e invisibilizando sua estatura como filósofa e escritora independente. Um exemplo dessa enquadração midiática pode ser observado em: JORNAL DO BRASIL. <em>Simone de Beauvoir sem Sartre</em>. Rio de Janeiro, 26 de agosto de 1960.</p>
           </div>
         `
       },
@@ -856,15 +899,36 @@
         chapter: 'Ressignificar na terapia',
         author: 'Emanuelly Fernanda Correa',
         html: `
-          <div class="h-full flex flex-col justify-center items-center text-center space-y-3 font-serif text-gray-800 p-4">
+          <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-teal">Capítulo 5</span>
             <h2 class="font-display text-lg font-bold text-gray-950 leading-tight">RESSIGNIFICAR NA TERAPIA, DIANTE DA ÓTICA PSICANALISTA</h2>
-            <p class="text-[11px] font-sans text-gray-600 font-semibold">Emanuelly Fernanda Correa (emanuellycorrea@hotmail.com)</p>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Emanuelly Fernanda Correa (emanuellycorrea@hotmail.com)</p>
 
-            <div class="p-4 bg-amber-50/90 rounded border border-amber-200 max-w-sm my-6 shadow-sm">
-              <svg class="w-8 h-8 text-brand-teal mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-              <p class="italic text-gray-700 text-xs">[Capítulo em revisão. Versão final a ser inserida no volume impresso.]</p>
-            </div>
+            <p>Qual é o tamanho da nossa bagagem? Quanto de cada pessoa que passou por nossa vida e do mundo exterior existe dentro de nós? Cada vivência que tivemos ao longo da jornada e da convivência com outras pessoas molda uma parte da história que trilhamos e fica guardada conosco, seja boa ou ruim, ao nosso ver.</p>
+
+            <p>Nem tudo o que carregamos é algo que queremos levar conosco. Isso gera sentimentos e, muitas vezes, não sabemos lidar com eles. Não somos apenas a nossa história: somos aquilo que desejamos ser. Mas, sem os acontecimentos, talvez não tivéssemos consciência desse desejo. Algumas coisas nos mudam tanto que deixamos de saber quem somos. A mudança é inevitável.</p>
+
+            <p>Acredito que a história pessoal de cada pessoa seja formada pelas culturas familiares: a fé, o jeito de falar, as vestimentas, o estilo musical, aquilo em que acreditamos e o que nos ensinaram sobre o que é certo e errado, entre tantas outras coisas. Nesse processo, pode acontecer de não nos reconhecermos mais diante de tudo o que nos foi ensinado e de precisarmos desenvolver novos passos.</p>
+
+            <p>Na ótica da psicanálise, somos formados por desejos, e muitos deles não são nossos. O modo como fomos criados e as situações que vivemos podem moldar nossas escolhas futuras. Mas isso não quer dizer que não possamos ressignificar quem somos, o que escolhemos, nossos motivos e nossos desejos.</p>
+
+            <p>É comum ouvir que falar não ajuda e que terapia é só alguém escutando. Mas não se trata somente disso. Quando conversamos com um amigo ou uma pessoa próxima, recebemos opiniões sobre nossas decisões. Nesse diálogo, nem sempre conseguimos refletir sobre o que de fato desejamos; ao receber opiniões de fora, nossos pensamentos e atitudes podem ser moldados pelo olhar de outra pessoa. Sei bem como é isso: quando converso com outras pessoas, mudo minhas opiniões por medo de pensar diferente. Sinto que aquilo que penso não tem tanta importância diante do pensamento de outra pessoa; o meu parece menor, insignificante. Mas não deveria ser assim. As diferenças de cada um são o que tornam um assunto interessante. Ainda assim, volta aquele pensamento: faço isso por seguir passos que acompanho desde pequena e continuarei seguindo se não houver o desejo de me descobrir.</p>
+
+            <p>Mas e quando temos um momento em que podemos falar sem receber algo de fora? Quando falamos sobre tudo o que pensamos, sentimos e sobre todas as dores; sobre momentos que simplesmente aconteceram e cujo significado nunca chegamos a pensar. Nessas falas, alguém nos escuta com atenção e carinho, e acontece o acolhimento. Na psicanálise, a palavra tem um papel fundamental. Através da fala livre (associação livre), entramos em contato com conteúdos do inconsciente que não percebemos de imediato. Aquilo que não conseguimos expressar diretamente pela linguagem muitas vezes se manifesta no corpo e nos afetos — no choro, na raiva ou no medo. A escuta terapêutica nos ajuda a dar um novo sentido a essas experiências e a compreender o impacto que causaram.</p>
+
+            <p>Acredito que a ressignificação começa quando nasce o desejo de buscar quem sou. Digo isso pela minha própria experiência. Durante muitos anos, tive o desejo de saber quem sou, porque constantemente mudava: tinha formas diferentes de pensar e desejos diferentes. Com isso, arrisquei-me em muitas coisas novas, fiz cursos em áreas diferentes e estive em diversos ambientes de trabalho. Parecia que faltava algo, e eu procurava isso em lugares diferentes, decepcionando-me muitas vezes.</p>
+
+            <p>Recentemente, percebi que nunca haverá algo 100% suficiente, pois essa busca sempre vai existir. A falta que eu sentia dizia sobre querer me entender completamente, me estabilizar em algo e continuar assim. Acredito que ressignificar também é entender que nem tudo depende das nossas escolhas. Existem situações que não podemos mudar, pessoas que não podemos controlar e respostas que talvez nunca teremos. Mas podemos escolher como vamos lidar com aquilo que aconteceu, sem permitir que essas experiências definam todos os nossos próximos passos. Às vezes, seguir em frente também significa aceitar que algumas coisas não terão a explicação que gostaríamos.</p>
+
+            <p>A importância da ressignificação está em compreender que sempre podemos começar de novo. Estamos em constante mudança: novos lugares, novos sonhos, novas pessoas e novos pensamentos. Não estou aqui para dizer que basta falar para ressignificarmos. O conhecimento de tudo o que vivemos, o medo, os desejos e, principalmente, a coragem podem ser um ponto de partida para um novo começo. E digo que não é um caminho fácil: ao longo do processo, nós mesmos podemos nos impedir de seguir ou decidir fazer uma nova rota.</p>
+
+            <p>Diante de tudo o que disse a vocês, volto a falar das bagagens, das antigas e das novas. As antigas continuam fazendo parte da nossa história. Posso olhar para elas e lembrar de cada coisa, mas também posso compreender o significado que tiveram e decidir o que desejo levar comigo. Na psicanálise, esse olhar para o passado não significa apagar o que aconteceu, mas buscar compreender como essas experiências ainda podem influenciar nossas escolhas e relações no presente. Assim, posso me recordar de quem um dia fui e reconhecer quem estou me tornando, sem precisar permanecer sendo aquilo que já não faz sentido para mim. Acho legal olhar para as antigas bagagens e entender o que ainda quero guardar e o que posso deixar de carregar.</p>
+
+            <p>Ressignificar não se trata somente do desejo de ser alguém, mas também de pertencer a algo e de entender por que queremos pertencer àquilo. Trata-se do desejo de ser escutado e, mais importante, de cada um de nós saber escutar a si mesmo. Quando há essa escuta, podemos nos acolher e entender nossos sentimentos.</p>
+
+            <p>Eu sempre quis pertencer a alguém, a algum lugar, mas então refleti sobre a importância de pertencer a mim mesma. Sou eu quem conhece cada gosto que tenho, quem sabe por onde quero ir e por onde fui um dia, quem sabe até onde vai o meu limite. Convivo comigo mesma a todo momento e, mesmo assim, é tão difícil saber quem sou — e mais difícil ainda me sentir pertencente a mim mesma. É como se não bastasse ter só a mim, até porque nem sei quem sou: ainda estou me descobrindo. Acredito que isso gere medo e que, por isso, esse sentimento de pertencer a algo seja difícil.</p>
+
+            <p>Acredito que seja um processo sem fim: podemos ressignificar todos os dias, até porque estamos constantemente aprendendo coisas novas. Recordo-me de antigos gostos que me faziam bem e que hoje já não fazem. Não sinto desprezo por isso; acho legal olhar para coisas que eu fazia e perceber que outras coisas me fazem feliz agora. Vejo o quanto mudei e quanta coisa aconteceu nesse tempo, e sei que ainda há uma longa caminhada pela frente e muitas coisas podem mudar. Ainda me pergunto constantemente quem sou, mas hoje, trazendo essa reflexão a vocês, entendo que essa pergunta será feita muitas vezes. Afinal, as coisas mudam, e isso é bem legal. O que será que há de novo me aguardando por aí — ou, na verdade, nos aguardando, né?!</p>
           </div>
         `
       },
@@ -882,9 +946,37 @@
 
             <p>O que você tem feito por você? Essa foi a pergunta que ouvi por muito tempo na sala do meu terapeuta. Foi um período em que eu enfrentava a depressão.</p>
 
-            <p>Eu não conseguia perceber o que se passava na minha mente, mas o meu corpo falava, com cansaço sem motivo, insônia, faltava motivação para me movimentar, e eu não conseguia descrever em palavras o que meu corpo estava querendo dizer. Um cansaço que não era apenas físico: o corpo estava dando sinais, como dores musculares, que na verdade eram reflexo do que eu passava emocionalmente.</p>
+            <p>Eu não conseguia perceber o que se passava na minha mente, mas o meu corpo falava: havia um cansaço sem motivo, insônia e falta de motivação para me movimentar. Eu não conseguia descrever em palavras o que meu corpo estava querendo dizer. Aquele cansaço não era apenas físico: meu corpo dava sinais, como dores musculares, que também refletiam o que eu vivia emocionalmente.</p>
 
-            <p>A atividade física não substitui uma sessão de psicoterapia, mas a cada evolução, movimentar o corpo traz disposição, equilibra neurotransmissores e favorece a autonomia emocional.</p>
+            <p>Isso não significa que todo sintoma físico tenha origem emocional. Convido você a olhar para si de forma mais integral, reconhecendo a relação constante entre corpo e mente.</p>
+
+            <p>A atividade física não substitui uma sessão de psicoterapia. Durante a psicoterapia, existe o momento de fala, escuta e reflexão, no qual a pessoa pode organizar os pensamentos, compreender os sentimentos e dar significado às experiências que está vivendo. É um espaço de construção e desconstrução do autoconhecimento e do autocuidado.</p>
+
+            <p>Quem convive com transtornos mentais pode perceber como o exercício faz parte da rotina de cuidado. Percebi isso quando realmente consegui movimentar o meu corpo.</p>
+
+            <p>Foi vivendo essa experiência que percebi, na minha própria história, o quanto o movimento poderia fazer parte do meu cuidado. Alguns anos atrás, quando me deparei com a depressão, iniciei a psicoterapia. Em uma das conversas, meu terapeuta me fez aquela pergunta que ficou comigo: “O que você tem feito por você?”</p>
+
+            <p>Eu nunca gostei muito de academia, mas gostava de caminhar e dançar. Então, comecei aos poucos, sem grandes cobranças. E como foi começar? Nada fácil. A procrastinação estava instalada, mas eu queria ouvir meu terapeuta dizer: “Parabéns, esse é o caminho”. Organizei-me para começar em um dia totalmente aleatório, que não fosse a tão famosa segunda-feira.</p>
+
+            <p>A cada sessão, eu tinha mais entusiasmo. As perguntas do terapeuta eram: “Como foi a semana?” e “Como foram os treinos?”. A cada avanço, eu me sentia mais apoiada, e a vontade de vencer se tornava mais constante.</p>
+
+            <p>Então, fiz um desafio interno: se conseguisse, teria uma recompensa, daria a mim mesma um mimo como reconhecimento do meu esforço. No início, eram quinze minutos de caminhada por semana; depois, duas vezes por semana, e assim fui aumentando. Percebi que, quando voltava das caminhadas, estava com mais ânimo, disposição e bom humor. Logo, já eram três, quatro, e cheguei a cinco vezes por semana. Não foi uma mudança que aconteceu de um dia para o outro, mas um movimento de volta para mim mesma.</p>
+
+            <p>Lembro-me de como ele era positivo em suas falas: “Estou com você”, “Eu acredito em você”. Essas palavras de apoio, firmes e acolhedoras, me davam segurança. No fundo, eu esperava que ele me desse o aval ou me empurrasse diretamente para o exercício quando contei sobre minhas caminhadas. Mas ele fez algo muito mais profundo: mostrou-me que o mérito daquela escolha era exclusivamente meu, ajudando-me a conectar a ação prática ao meu próprio bem-estar. A partir daí, a dinâmica das nossas sessões mudou completamente. Eu já não chegava apenas para falar de pesos ou angústias; chegava diferente, com outra postura, trazendo meus avanços, compartilhando minhas pequenas conquistas a cada semana e com a certeza de que estava construindo minha própria autonomia.</p>
+
+            <p>Posso dizer, a partir da minha própria experiência, o quanto a atividade física me fez bem. Eu sentia uma energia interna: por exemplo, fazer uma caminhada às seis horas da manhã me dava disposição para arrumar a casa e cumprir minhas obrigações. Comecei a me sentir mais forte, disposta e segura. Em uma aula de Pilates, quando consegui me equilibrar na bola, senti uma mistura de alegria e pedi para tirarem uma foto.</p>
+
+            <p>Foi naquele momento que me senti capaz de superar não só o desafio de me equilibrar na bola, mas também de retomar o equilíbrio da minha vida. Inclusive, tenho essa foto até hoje; foi um momento de muita superação.</p>
+
+            <p>E você pode estar se perguntando: houve constância? Foi uma receita mágica? E eu digo: não. Nos momentos de frustração, quando bate a vontade de desistir, vêm as desculpas: “Estou cansada”, “amanhã eu vou”, “está chovendo”, “está frio”. Mas sempre digo: aquilo que preciso fazer por mim, ninguém vai fazer. Até hoje, quando percebo que estou para baixo, triste ou desanimada, procuro me movimentar: faço uma caminhada, alguns polichinelos ou simplesmente coloco uma música e começo a dançar.</p>
+
+            <p>Acho que o movimento faz isso: quando coloco o corpo para andar, algo também ganha espaço por dentro. Recuperei forças, voltei a fazer pequenas escolhas e percebi que ainda era capaz de agir por mim.</p>
+
+            <p>O movimento do corpo pode contribuir não apenas para o bem-estar físico, mas também para aspectos emocionais. Procure algo do seu interesse, como caminhar, dançar, correr, praticar algum esporte ou simplesmente colocar o corpo em movimento. Na atividade física, encontramos também uma possibilidade de estar mais presentes no próprio corpo e perceber como ele responde a esse movimento.</p>
+
+            <p>Os exercícios físicos foram aliados importantes nos momentos em que enfrentei o desânimo. Antes, eu tinha dificuldades para dormir, mas a rotina de atividades trouxe noites mais tranquilas e um descanso muito melhor. Movimentar o corpo também me fortaleceu emocionalmente e me ajudou a cuidar de mim de forma mais integral.</p>
+
+            <p>No meu caso, a atividade física não apagou a dor nem substituiu a terapia, mas virou uma grande aliada: um jeito de voltar a me sentir presente na minha própria vida. E, se em algum momento você desanimar ou pensar em desistir, entenda que tudo é um processo: existem dias bons e dias desafiadores. Há quem precise de companhia, enquanto outros preferem ir sós. O importante é fazer a sua escolha e se sentir bem com o caminho que decidir seguir.</p>
           </div>
         `
       },
@@ -902,9 +994,59 @@
 
             <p>Passei anos esperando pelo dia em que teria meu filho nos braços. O que eu não imaginava era que, depois desse encontro, também precisaria aprender a olhar para mim de uma nova maneira. Em que momento ser mãe se tornou tão fácil de reconhecer, enquanto reconhecer a mim mesma ficou tão difícil?</p>
 
-            <p>Sempre sonhei com a maternidade, mas quando Joshua nasceu, percebi a distância entre a maternidade idealizada e a real. O mais difícil nem sempre é cuidar do bebê, mas aprender a cuidar de si enquanto se cuida dele.</p>
+            <p>Sempre sonhei com a maternidade, mas, por questões de saúde, engravidar parecia difícil. Depois de nove anos de casamento, durante uma investigação para tratar pólipos uterinos, descobri inesperadamente que estava grávida. Meu sonho finalmente acontecia.</p>
 
-            <p>A mãe também precisa ser cuidada, ouvida e reconhecida como pessoa. Não precisa escolher entre amar seu filho e olhar para si.</p>
+            <p>Minha gestação, porém, foi marcada por sangramentos, idas ao hospital, medo de perder meu bebê e uma cerclagem devido ao encurtamento do colo do útero. Quando Joshua nasceu, vivi uma felicidade indescritível. Meu esposo esteve ao meu lado, um apoio que reconheço como privilégio, pois nem todas as mulheres contam com essa rede.</p>
+
+            <p>Depois de tanta espera, imaginava que o amor me prepararia para tudo. Mas desejar muito alguma coisa não significa saber como vivê-la.</p>
+
+            <p>Uma das primeiras dificuldades foi a amamentação. O leite não veio como eu esperava. Tentei estimular a produção e busquei ajuda, inclusive no banco de leite, mas precisei alimentar meu filho com fórmula desde o nascimento. Senti frustração e culpa. Questionava minha capacidade de ser mãe e temia prejudicar nosso vínculo.</p>
+
+            <p>Demorei a compreender que amamentar não é a única forma de demonstrar amor. O vínculo também se constrói no colo, no olhar e no cuidado cotidiano. Uma mulher não é menos mãe porque não conseguiu amamentar. A maternidade não deveria ser medida por uma única experiência.</p>
+
+            <p>Foi assim que percebi a distância entre a maternidade idealizada e a real. Espera-se que o instinto materno apareça automaticamente, mas ser mãe também é aprender, errar, sentir medo e descobrir, dia após dia, como cuidar de alguém que depende de você.</p>
+
+            <p>Chegam ainda conselhos não solicitados: que o leite é fraco, que o bebê precisa de chá, que colo demais acostuma mal. Mesmo bem-intencionadas, essas opiniões podem abalar a confiança de quem já enfrenta tantas mudanças. Em vez de acolhimento, encontramos cobranças para corresponder a uma mãe ideal que não existe.</p>
+
+            <p>No puerpério, o corpo muda, o sono se fragmenta e a rotina gira em torno do bebê. Algumas mulheres vivenciam o <em>baby blues</em>; outras podem desenvolver depressão pós-parto, que exige avaliação e cuidado profissional. O sofrimento materno não deve ser minimizado.</p>
+
+            <p>No meio de tantas mudanças, uma questão começou a me acompanhar: onde eu estava em tudo aquilo?</p>
+
+            <p>Eu continuava sendo esposa, estudante, mulher, alguém com sonhos próprios. Mas esses papéis pareciam ficar em segundo plano. Entre fraldas, mamadeiras, choros e noites interrompidas, estava tão concentrada em cuidar que já não sabia como cuidar de mim.</p>
+
+            <p>O mais difícil da maternidade nem sempre é cuidar do bebê, mas aprender a cuidar de si enquanto se cuida dele.</p>
+
+            <p>Sentir falta da liberdade e de quem eu era antes não significa amar menos meu filho ou me arrepender de tê-lo. Mesmo assim, sentia culpa. Depois de tanto esperar, como poderia sentir saudade da minha antiga vida? Como poderia estar cansada de algo que desejei tanto?</p>
+
+            <p>A comparação com imagens de maternidades perfeitas nas redes sociais pode fazer muitas mulheres acreditarem que estão falhando.</p>
+
+            <p>A rede de apoio faz diferença. A responsabilidade pelo bebê não deve recair exclusivamente sobre a mãe. O pai não está ali apenas para ajudá-la: ele também é responsável pela criação do filho. Dividir tarefas e acolher sentimentos permite que a mulher encontre algum espaço para si.</p>
+
+            <p>Nem todas têm esse suporte. Mães solo podem enfrentar uma sobrecarga ainda maior. As condições financeiras também pesam: recomendar academia, salão de beleza ou descanso é fácil, mas nem todas têm dinheiro ou tempo para isso.</p>
+
+            <p>Não basta dizer que a mulher precisa se priorizar. É necessário que ela tenha condições reais de fazer isso. Reconstruir a identidade também depende de apoio, participação paterna, condições de trabalho e acesso à saúde mental.</p>
+
+            <p>O acompanhamento psicológico pode oferecer um espaço de escuta sem julgamentos, onde a mãe reconheça suas necessidades e não precise esconder o cansaço para provar seu amor.</p>
+
+            <p>Essa reconstrução não tem prazo. Conheci uma mãe que levou doze anos após o nascimento do primeiro filho para começar a se reencontrar. Cada trajetória tem seu tempo.</p>
+
+            <p>Ouvi de uma psicóloga uma frase que me marcou: as coisas melhoram não necessariamente porque ficam mais fáceis, mas porque nos tornamos mais fortes. Reencontrar-me não é voltar a quem eu era, mas reconhecer que posso ser mãe e continuar tendo sonhos, sentimentos, limites e necessidades próprias.</p>
+
+            <p>A maternidade é feita de contradições. Podemos viver uma das maiores felicidades e sentir um cansaço profundo; desejar que nossos filhos cresçam e querer guardar certas fases para sempre; estar acompanhadas e ainda sentir solidão. Podemos amar e, mesmo assim, não saber como agir. Uma coisa não anula a outra. É nesse espaço que precisamos de mais acolhimento e menos julgamento.</p>
+
+            <p>Durante muito tempo, imaginei que a chegada do meu filho preencheria todos os espaços da minha vida. E, de certa forma, preencheu. Mas não imaginava que, ao mesmo tempo em que descobriria um amor tão grande, também sentiria falta de partes de mim que pareciam ter ficado para trás. Foi difícil compreender que esses sentimentos poderiam existir juntos, sem que um anulasse o outro.</p>
+
+            <p>Talvez uma das maiores dificuldades da maternidade seja justamente essa: enquanto todos acompanham o crescimento do bebê, poucas pessoas percebem as transformações silenciosas que acontecem com a mulher. Todos perguntam como está o filho, se está dormindo, se está mamando, se está crescendo. Mas quantas vezes alguém pergunta como está aquela que passa os dias e as noites cuidando dele?</p>
+
+            <p>O amor também está nas mamadeiras, nos olhares, nos sorrisos inesperados e no aconchego do meu filho. Enquanto ele aprende a viver, eu aprendo a ser sua mãe. Se um dia meu filho ler estas palavras, quero que saiba que nunca me arrependi de tê-lo. Sentir cansaço ou saudade de quem eu era não diminui o amor que sinto por você.</p>
+
+            <p>A mãe também precisa ser cuidada, ouvida e reconhecida como pessoa. Não precisa escolher entre amar seu filho e olhar para si, nem sentir culpa por desejar descanso ou retomar sonhos.</p>
+
+            <p>Talvez eu ainda não tenha todas as respostas, e tudo bem. Com o tempo, tenho entendido que a maternidade não precisa significar deixar minhas próprias necessidades em segundo plano.</p>
+
+            <p>Ainda estou aprendendo a reconhecer a mulher que existe em mim depois da chegada do meu filho. Ser mãe não apagou quem eu era, mas transformou profundamente a maneira como me vejo. Entre medos, cansaço e amor, sigo encontrando espaço para mim nessa nova vida.</p>
+
+            <p>Afinal, quando nasce uma mãe, não deixa de existir uma mulher. Nasce uma nova forma de ser mulher, e talvez uma das tarefas mais bonitas e desafiadoras dessa jornada seja aprender a reconhecê-la.</p>
           </div>
         `
       },
@@ -917,12 +1059,36 @@
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-gold">Capítulo 8</span>
-            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A REPRESENTAÇÃO SOCIAL DO DIAGNÓSTICO</h2>
-            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Gisele Ferreira Kravicz (giselekravicz@gmail.com)</p>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A REPRESENTAÇÃO SOCIAL DO DIAGNÓSTICO: QUEM É VOCÊ, ALÉM DO QUE DIZEM QUE VOCÊ TEM?</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Gisele Ferreira Kravicz (<a href="mailto:giselekravicz@gmail.com" class="underline">giselekravicz@gmail.com</a>)</p>
 
-            <p>"Ele é autista e tem altas habilidades", "o meu tem TDAH e TOD". Frases ouvidas na sala de espera mostram como diagnósticos por vezes rotulam pessoas. Moscovici estuda como as representações sociais tornam familiar o estranho.</p>
+            <p>“Ele é autista e tem altas habilidades”, “o meu tem TDAH e TOD”. São algumas das frases que ouvi enquanto aguardava na sala de espera de uma clínica.</p>
 
-            <p>O DSM e a CID são guias técnicos, não rótulos para definir a totalidade de alguém. É preciso escuta qualificada para enxergar o ser humano além daquilo que dizem que ele tem.</p>
+            <p>Vivemos em tempos em que os diagnósticos também passam constantemente por um processo de coisificação. Parece que o enquadramento em determinado transtorno, comorbidade ou até mesmo neurodivergência passa a ser uma forma de explicar quem é o sujeito. Entretanto, compreendo que, para além das características que esse sujeito apresenta, existe uma necessidade social de enquadramento como critério para estabelecer distinções. Por isso, falas como “ele é autista”, “ele é narcisista” e “ela tem dislexia” permeiam a sociedade como forma de classificar e dar sentido àquilo que parece desconhecido.</p>
+
+            <p>Esse processo pode ser compreendido a partir das representações sociais, que tornam familiar aquilo que parece estranho. Moscovici foi um importante pensador que estudou as representações sociais. Ele discute como crenças e interpretações compartilhadas por um grupo passam a constituir formas coletivas de compreender a realidade. As representações sociais envolvem crenças e valores, transmitidos pela tradição e partilhados nos grupos, que assim dão sentido ao mundo que os cerca.</p>
+
+            <p>Desse modo, o senso comum é um espaço importante de produção das representações sociais. O problema surge quando opiniões passam a ocupar o lugar de um conhecimento que exige formação, avaliação e responsabilidade. Quando falamos sobre diagnóstico, precisamos reconhecer os limites dessas interpretações, sem desconsiderar o valor das experiências cotidianas nem o conhecimento científico produzido pelos especialistas.</p>
+
+            <p>É importante salientar que o senso comum não é, por si só, um conhecimento sem valor. Ao contrário, muitos conhecimentos científicos também têm sua origem no senso comum. Porém, é preciso ter cuidado com o que se diz: recorrer à categorização e, muitas vezes, estereotipar os sujeitos pode retirar o mérito do conhecimento científico. Vivemos em tempos em que é preciso defender o que foi construído e pensado por aqueles que vieram antes de nós e dedicaram anos à pesquisa. Esse conhecimento reificado é o campo em que os especialistas falam a partir dos conhecimentos construídos pela ciência.</p>
+
+            <p>Desse modo, nem toda pessoa autista é agitada, tem altas habilidades ou seletividade alimentar, porque não há um modelo pronto e universal. Cada ser humano é único e singular em sua existência.</p>
+
+            <p>Por outro lado, crianças que são bastante ativas, correm, brincam e questionam podem estar apenas expressando sua curiosidade diante das descobertas do mundo. Hoje, muitas aprendem desde cedo a ficar quietas diante de uma tela. O celular é usado como entretenimento e também pode se tornar uma ferramenta para pais ou responsáveis conterem comportamentos que incomodam.</p>
+
+            <p>Mas o que seria o normal e o anormal? A normalidade tem intensidade? Quais são os elementos que permitem pensar a normalidade no cenário em que vivemos? A normalidade se constrói com o tempo, tem caráter histórico e é atravessada pela cultura, pelas tradições, pelo ambiente, pelo desenvolvimento psicossocial e pelos papéis que atribuímos à criança, ao adolescente e ao adulto.</p>
+
+            <p>Vamos a um exemplo: quando eu era criança, nos anos 1980, as crianças corriam, pulavam, subiam em árvores e passavam o dia na rua brincando. Eram vistas como ativas e normais. Hoje, essa mesma criança poderia despertar uma suspeita de TDAH. Isso não quer dizer que o TDAH não existisse naquela época, nem que todas as crianças agitadas de hoje estejam sendo diagnosticadas de forma equivocada. Ao comparar essas infâncias, penso também em como mudaram as expectativas dos adultos, os espaços para brincar e a tolerância aos comportamentos infantis. É essa mudança no modo de olhar para a criança que me faz refletir. Hoje em dia, quantas crianças você vê brincando na rua, andando de bicicleta ou tendo uma infância mais próxima da natureza?</p>
+
+            <p>Ao mesmo tempo, a mercantilização do atendimento ganha cada vez mais espaço. De Petrolina a Cascavel, tenho observado clínicas surgirem em todos os lugares, oferecendo atendimentos muitas vezes precarizados, com sessões de 30 minutos, rotatividade de profissionais e salas em que mal cabem o profissional e a criança, entre outras precariedades.</p>
+
+            <p>Aqui chego a um ponto importante: não quero questionar doenças, transtornos ou diferenças, nem invalidar diagnósticos; muito pelo contrário. A preocupação é tratar a saúde mental com responsabilidade e ética, pois compreendo que quem tem um transtorno ou uma condição do neurodesenvolvimento pode precisar de medicamento, terapia, acompanhamento de vários profissionais e adaptações em diferentes espaços. Muitas dessas pessoas sofrem preconceito no cotidiano ou têm seus direitos violados, seja pela falta de acesso às políticas públicas, seja pela falta de acesso a terapias eficazes. Na área profissional, já ouvi muitos relatos de mães atípicas cujos filhos tiveram matrículas escolares negadas, que receberam olhares atravessados ou que enfrentam as angústias de uma maternidade idealizada, enquanto a vida lhes impôs outra realidade, com novos desafios e enfrentamentos.</p>
+
+            <p>O DSM e a CID são instrumentos importantes para orientar a classificação e a avaliação de condições de saúde com base em critérios técnicos e científicos; não foram feitos para rotular pessoas. Assim, dizer que uma criança “é autista” depois de uma conversa na sala de espera não tem o mesmo peso de um diagnóstico estabelecido por profissional habilitado, após uma avaliação cuidadosa. A avaliação psicológica ou neuropsicológica pode contribuir para esse processo, considerando a escuta, a história do desenvolvimento, os testes, quando indicados, e outros dados relevantes que o profissional irá avaliar e interpretar para chegar às suas conclusões. A definição diagnóstica deve considerar as atribuições dos profissionais habilitados e, quando necessário, o trabalho conjunto das equipes multiprofissionais.</p>
+
+            <p>Por isso, acredito que a escuta qualificada e o trabalho de profissionais capacitados continuam sendo fundamentais na saúde mental. Para mim, é necessário conhecer a história da pessoa e as condições em que vive antes de reduzir seus comportamentos a uma classificação. Isso não significa negar a importância dos diagnósticos ou dos tratamentos. Uma pessoa pode precisar de medicação, psicoterapia ou acompanhamento especializado e, ainda assim, continuar sendo muito mais do que sua condição.</p>
+
+            <p>Volto à sala de espera. Entre as conversas na recepção, observo as pessoas e penso nas frases que ouvi. Incomoda-me perceber como, muitas vezes, um diagnóstico parece definir quem alguém é. As representações sociais influenciam nossa maneira de compreender o outro; por isso, considero importante questionar as crenças e os valores que compartilhamos. Afinal, quem é aquela pessoa, além do que dizem que ela tem?</p>
           </div>
         `
       },
@@ -935,10 +1101,34 @@
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-teal">Capítulo 9</span>
-            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A INFÂNCIA NA ERA DIGITAL</h2>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A INFÂNCIA NA ERA DIGITAL: O PAPEL DAS RELAÇÕES SOCIAIS NO DESENVOLVIMENTO HUMANO</h2>
             <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Laura do Prado Eliziário Martins (@laura_do_prado)</p>
 
-            <p>Pela Psicologia Histórico-Cultural de Vigotski, as Funções Psicológicas Superiores se desenvolvem na interação social. Na era digital, telas substituem a paciência das brincadeiras reais por gratificação instantânea. A mediação humana do adulto é insubstituível.</p>
+            <p>Desenvolvida no contexto da Rússia do início do século XX, a Psicologia Histórico-Cultural trouxe uma importante contribuição para compreender o desenvolvimento humano: nossa maneira de pensar e agir não depende apenas de fatores biológicos, mas também das relações sociais e da cultura em que estamos inseridos. Essa perspectiva nos leva a refletir sobre uma questão importante: como as experiências vividas na infância contribuem para a formação do pensamento e do comportamento humano?</p>
+
+            <p>Ao discutir o trabalho em <em>O capital</em>, Karl Marx compara a atividade de uma abelha à de um mestre de obras, destacando que o ser humano é capaz de imaginar e planejar mentalmente o resultado de sua atividade antes de realizá-la. Essa comparação ajuda a compreender a importância da consciência e da intencionalidade na ação humana. No desenvolvimento infantil, essas capacidades também são construídas gradualmente, por meio das experiências, da linguagem e das relações com outras pessoas.</p>
+
+            <p>No caso das crianças, esse “mestre de obras” inicial é o adulto, a família e a escola. Quando duas crianças brincam juntas, nem sempre as coisas acontecem como elas gostariam. Às vezes, é preciso esperar a vez, aceitar que o colega ganhou ou encontrar uma solução para um desentendimento. Nessas situações, a presença de um adulto pode ajudar a criança a compreender o que sente, respeitar o outro e pensar em maneiras de resolver o problema. Aos poucos, experiências como essas contribuem para o desenvolvimento da atenção voluntária e da capacidade de controlar as próprias ações.</p>
+
+            <p>A relação entre o biológico e o cultural é evidenciada na análise de Vigotski sobre as Funções Psicológicas. Segundo essa perspectiva, as Funções Psicológicas Elementares (FPE) são comuns a humanos e animais, englobando aspectos como a atenção e a memória involuntárias. Por outro lado, as Funções Psicológicas Superiores (FPS) são características da espécie humana e incluem o controle consciente do comportamento, a atenção e a memória voluntárias, a memorização ativa, o pensamento abstrato, o raciocínio dedutivo e a capacidade de planejamento.</p>
+
+            <p>A origem das FPS é identificada como cultural. No começo, os adultos ou as crianças mais velhas são mediadores do contato da criança com o mundo. À medida que as crianças crescem, os processos que eram partilhados com os adultos ou outras crianças passam a ocorrer dentro delas mesmas. Com o desenvolvimento, a criança passa a realizar por conta própria ações que, inicialmente, dependiam da orientação de outras pessoas. Assim, formas de pensar e agir construídas nas relações sociais passam a integrar seu próprio funcionamento psicológico.</p>
+
+            <p>Essa premissa básica da Teoria Histórico-Cultural — a de que a mente humana não se desenvolve de forma isolada ou puramente biológica, mas é moldada pelas interações sociais, pela cultura e pela linguagem — nunca foi tão desafiada quanto no século XXI. O problema surge quando o uso das telas passa a ocupar o espaço de experiências importantes para o desenvolvimento infantil, como as brincadeiras compartilhadas, as conversas e a convivência com outras pessoas. Diferentemente de algumas interações digitais, que oferecem respostas rápidas e permitem trocar de conteúdo a qualquer momento, as relações humanas exigem escuta, paciência e capacidade de lidar com situações inesperadas. Quando essas experiências são substituídas de maneira recorrente pelo uso passivo de dispositivos, podem ser reduzidas as oportunidades de exercitar habilidades como a atenção voluntária, a autorregulação e a resolução de conflitos.</p>
+
+            <p>Na prática pedagógica, como educadora da Educação Infantil e do Ensino Fundamental I, considero o cenário preocupante: há alunos apáticos, sonolentos e dispersos, com dificuldade para concluir atividades simples, e crianças extremamente inquietas. A explicação para esses comportamentos, muitas vezes, aparece em conversas reveladoras com as famílias: uso do celular para assistir a vídeos e jogar sem limite de tempo, sem supervisão e sem rotina para a realização das tarefas ou dos estudos diários e, principalmente, sem horário definido para dormir. São noites mal dormidas e rotinas inexistentes na vida de crianças que, teoricamente, deveriam estar no auge de sua energia e curiosidade para aprender.</p>
+
+            <p>O que muitos pais não compreenderam é que o cérebro da criança está em desenvolvimento e precisa descansar para se estruturar. Com a sobrecarga de estímulos visuais e sonoros durante o dia e até altas horas da noite, o cérebro pode ter dificuldade para realizar processos neurais como organizar as memórias, eliminar conexões desnecessárias e restaurar as funções cognitivas para o aprendizado do dia seguinte.</p>
+
+            <p>Na rotina escolar, dificuldades de concentração e de autorregulação despertam preocupações entre educadores e familiares. Atualmente, têm crescido os encaminhamentos e diagnósticos de déficit de atenção em crianças cada vez mais novas, frequentemente associados ao TDAH (Transtorno do Déficit de Atenção com Hiperatividade), um transtorno neurobiológico. Em muitos casos, as crianças são medicadas cada vez mais cedo para controlar a agitação e melhorar a atenção. Embora o uso excessivo ou inadequado das telas mereça atenção, não é possível atribuir a ele, isoladamente, a causa dessas dificuldades ou dos diagnósticos. Por isso, é necessário considerar tanto as características individuais da criança quanto as experiências e condições do ambiente em que ela vive.</p>
+
+            <p>No entanto, diante de vídeos curtos e acelerados, percebe-se que as crianças reagem instantaneamente, o que favorece a análise de que o algoritmo oferece gratificação imediata e períodos curtos de atenção. Na tela, se algo frustra, basta arrastar o dedo para o lado. A tecnologia também pode proporcionar experiências de aprendizagem, comunicação e cooperação, mas, sem a mediação de um mestre de obras humano, a criança corre o risco de agir por impulso, sem desenvolver a intencionalidade de suas ações.</p>
+
+            <p>É por meio da comunicação com o adulto que a atividade consciente da criança se transforma, caracterizando uma ação voluntária. Longe de ser um processo puramente orgânico, a organização das nossas funções mentais depende desse vínculo social. É justamente essa mediação que nos capacita a dominar a própria mente: a habilidade tão humana de selecionar os estímulos que realmente importam e ignorar o restante do ruído ao redor não é um mero reflexo, mas o resultado de uma função psicológica superior plenamente desenvolvida.</p>
+
+            <p>É fundamental esclarecer que o problema não é a tecnologia em si, mas a substituição da experiência viva por uma interação empobrecida. O meio não é um cenário neutro: ele molda as ferramentas que a criança tem para pensar. A criança não escolhe sozinha o ambiente em que cresce; as condições são oferecidas pelos adultos. Se o ambiente cotidiano é dominado por interfaces que demandam pouca ou nenhuma reciprocidade humana, a capacidade de simbolizar e de se colocar no lugar do outro pode ficar comprometida.</p>
+
+            <p>Defender a infância na era digital não significa rejeitar a tecnologia, mas reconhecer que o desenvolvimento humano precisa de experiências que nenhuma tela, sozinha, pode substituir: o diálogo, a brincadeira, o afeto e a convivência com outras pessoas. Cabe à família, à escola e à sociedade garantir que os recursos digitais sejam utilizados de maneira consciente, sem ocupar o lugar das relações que contribuem para a formação do pensamento, da autonomia e da capacidade de conviver. Portanto, cabe a nós garantir que a tecnologia seja apenas uma ferramenta, e não o ambiente principal em que a infância se desenvolve.</p>
           </div>
         `
       },
@@ -951,10 +1141,28 @@
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-coral">Capítulo 10</span>
-            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">HABITAR PARA ALÉM DA FORMA: ARQUITETURA E MENTE</h2>
-            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Adonis Luiz Osmar Silva (@adonis.professor)</p>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">HABITAR PARA ALÉM DA FORMA: A ARQUITETURA COMO CUIDADO COM A MENTE</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Adonis Luiz Osmar Silva (adonislos.arquitetura@gmail.com | @adonis.professor)</p>
 
-            <p>A arquitetura vai além do abrigo físico: luz, ventilação e biofilia transformam a saúde mental dos moradores. A casa pode devolver autonomia, dignidade e paz de espírito.</p>
+            <p>Em aproximadamente quinze anos trabalhando com projetos de arquitetura, uma coisa sempre me chamou a atenção e quase nunca aparece claramente no desenho: como as pessoas se sentem dentro do espaço. Na minha experiência, já vi um cliente entrar num ambiente com iluminação natural e respirar aliviado. Já vi outro se encolher, sem perceber, num ambiente escuro, apertado e abafado. Quarto, sala de aula, consultório, tanto faz: o lugar mexe com a gente. O tempo que ficamos ali, por onde entra a luz, onde está o sofá, a cor da parede: tudo isso pesa no humor, no sono e naquela sensação difícil de explicar, que é a de estar seguro. Foram essas e muitas outras observações, feitas no dia a dia de trabalho, que acabaram me levando a pensar na psicologia como caminho para o bem-estar do usuário.</p>
+
+            <p>Olhando por esse lado, a arquitetura vai além de construir abrigo. Ela pode cuidar e acolher. Um projeto que considera a relação entre a mente, o corpo, a ergonomia e as emoções de quem vai morar ali ajuda a dormir melhor, a manter a atenção, a atravessar dias difíceis e a se sentir em casa, no sentido mais literal da expressão. É sobre o espaço construído e a vida que acontece dentro dele que quero falar aqui: de onde viemos, o que a pesquisa já mostrou e também para onde as coisas parecem estar indo.</p>
+
+            <p>Mas nem sempre se pensou assim. No começo do século XX, o modernismo chegou com ideias que mudaram tudo, e Le Corbusier chegou a definir a casa como uma “máquina de morar”. Anos depois, criou o Modulor, um sistema de medidas baseado num corpo humano idealizado, para servir de base no dimensionamento de portas, móveis e cômodos. Tinha mérito, e não pouco: a construção ficou mais racional, a moradia chegou a mais gente, e casas que antes eram úmidas e escuras ganharam luz e ar. O problema é que, para padronizar o ser humano, foi preciso fingir que somos todos iguais. Quem era mais alto ou mais baixo, o idoso, a criança, a pessoa com deficiência: todos ficaram de fora dessa régua. E as diferenças emocionais de cada um nem entraram na conta. Em muitos casos, o resultado foi uma arquitetura eficiente, sim, mas reta, repetitiva e pouco atenta a quem mora nela. É algo que ainda vemos hoje em muitas casas em que a fachada importa mais que o interior.</p>
+
+            <p>Foi aí que a psicologia começou a prestar atenção nos espaços. Nos anos 1960, ganhou corpo a psicologia ambiental, campo que estuda como o ambiente físico interfere no comportamento, nas emoções e no bem-estar do usuário. Um dos trabalhos que mais me marcaram é de 1984. O pesquisador Roger Ulrich comparou pacientes operados num mesmo hospital: os que tinham vista para árvores pela janela se recuperaram mais rápido e precisaram de menos analgésicos do que os que passavam o dia olhando para uma parede de tijolos. Uma janela. Não foi ela que curou ninguém — quem fez isso foram os médicos, os remédios e o próprio corpo. Mas ela ajudou. Virou mais uma ferramenta a favor da recuperação, e o estudo abriu caminho para muita pesquisa depois. No mesmo ano, o biólogo Edward O. Wilson popularizou a biofilia, a hipótese de que trazemos em nós uma necessidade muito antiga de contato com a natureza, o famoso “pé no chão”. De lá para cá, aos poucos, a arquitetura foi tirando o olho do objeto e olhando mais para a experiência de quem usa.</p>
+
+            <p>Hoje, isso aparece no projeto de forma bem prática. A iluminação é um bom exemplo: arquitetos preocupados com a saúde do morador não pensam mais só em quantos lux o ambiente precisa, mas em como a luz conversa com o relógio biológico. Muita luz natural durante o dia e, à noite, uma luz mais quente e mais baixa ajudam a regular o sono e o humor. Ventilação cruzada, plantas, madeira, pedra, água por perto, uma vista para o verde: tudo isso diminui o estresse e ajuda a concentrar. Cor também conta, mas aqui eu fujo de tabela pronta. Tons mais calmos costumam acolher, e cores fortes, em pontos certos, dão energia; só que a luz do ambiente, a cultura e a história de cada pessoa mudam muito essa leitura. Não existe fórmula. São recursos que, combinados com atenção a quem vai usar o espaço, fazem um ambiente comum virar um lugar onde a pessoa se sente segura.</p>
+
+            <p>Lembro de uma reforma em que isso ficou muito claro para mim. Era o apartamento de uma senhora que morava sozinha, com uma sala escura, um sofá pesado na frente da janela e uma cortina grossa que vivia fechada. Ela dizia que não gostava de ficar ali. A obra foi simples: tiramos a cortina, mudamos o sofá de lugar, clareamos as paredes e trocamos a iluminação por uma luz mais quente. Quando ela entrou, ficou um tempo parada, olhando para a janela. Depois, sentou, passou a mão no braço do sofá e disse que agora dava vontade de tomar café ali. Meses depois, a filha me contou que a mãe tinha voltado a receber as amigas em casa.</p>
+
+            <p>Essa atenção pesa ainda mais quando o projeto é para alguém com necessidades específicas. Adaptar uma casa para uma pessoa com deficiência não pode se resumir a rampa e barra de apoio. A casa precisa devolver autonomia e dignidade, deixar que a pessoa circule, alcance as coisas e tome decisões sozinha. E ninguém sabe melhor o que atrapalha do que a própria pessoa; por isso, vale ouvi-la desde o primeiro rabisco. Para quem convive com ansiedade, depressão ou outras questões de saúde mental, a lógica é parecida, e a casa pode virar uma aliada: um canto de refúgio, caminhos livres e fáceis de entender, controle sobre a luz e o barulho, algum contato com o verde, uma organização que passe calma e previsibilidade. O que funciona varia muito de uma pessoa para outra, e nada disso substitui terapia ou acompanhamento médico. Mas a casa pode ser um lugar que ajuda, em vez de mais uma coisa que pesa. E tem um efeito colateral bom nisso: quando a gente projeta pensando em quem mais precisa, o resto da família costuma sair ganhando junto.</p>
+
+            <p>Tem um outro lado que não dá para ignorar. A maior parte das pessoas neste país nunca vai contratar um arquiteto e, mesmo assim, merece morar bem. Existe a Lei de Assistência Técnica (Lei 11.888/2008), que garante projeto gratuito para famílias de baixa renda, mas ela ainda é pouco usada e pouco conhecida. Enquanto isso não muda, muita coisa cabe no bolso: tirar o móvel da frente da janela, deixar o ar circular, pintar a parede de uma cor mais clara, usar uma lâmpada mais amarela à noite, ter uma planta por perto. Não resolve tudo, mas já faz diferença. Bem-estar não pode ser coisa só de quem pode pagar.</p>
+
+            <p>Daqui para a frente, a tendência é que essa conversa entre arquitetura e psicologia fique mais profunda. A neuroarquitetura, um campo ainda novo, já estuda como o cérebro responde aos espaços, e existem certificações que avaliam um edifício pela saúde e pelo bem-estar de quem está dentro dele, não só pelo desempenho técnico. Iluminação que acompanha o ciclo do dia, sensores que ajustam a temperatura e o ruído: a tecnologia vai deixar os ambientes cada vez mais ajustados às pessoas. Ainda assim, aposto que a mudança que mais importa vai ser outra: criar o hábito de escutar antes de desenhar e de enxergar o usuário como alguém com história, corpo e emoções, e não como uma medida média.</p>
+
+            <p>Hoje, dividido entre os projetos e a psicologia, vejo que as duas sempre trataram, cada uma do seu jeito, do mesmo assunto: pessoas. A arquitetura cuida do espaço que nos abriga. A psicologia, do espaço que a gente carrega por dentro. Quando trabalham juntas, o que sai não é só uma casa: é um lugar onde dá para descansar, se recuperar e simplesmente ficar bem. Para mim, esse é o grande desafio de projetar hoje: lembrar que, antes da forma, existe alguém que vai viver naquele lugar e precisa ser feliz nele.</p>
           </div>
         `
       },
@@ -962,15 +1170,41 @@
       // CAPÍTULO 11 - JEFERSON LIMA (PÁGINAS 57 - 61)
       {
         type: 'content',
-        chapter: 'Terapia Assistida por Cães',
+        chapter: 'Terapia Assistida por Cães e a Psicologia',
         author: 'Jeferson Deobald Lima',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-gold">Capítulo 11</span>
-            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">TERAPIA ASSISTIDA POR CÃES</h2>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">TERAPIA ASSISTIDA POR CÃES E A PSICOLOGIA</h2>
             <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Jeferson Deobald Lima (@Jefersondeobaldlima)</p>
 
-            <p>Interações afetuosas com cães de terapia liberam oxitocina e serotonina, facilitando o vínculo terapêutico, aliviando ansiedade, síndrome do pânico e estimulando o relaxamento e acolhimento.</p>
+            <p>Como os cães poderiam auxiliar no tratamento de diferentes transtornos, distúrbios ou outras questões relacionadas à saúde mental? Sendo mais específico: os cães podem auxiliar na prevenção e no tratamento da depressão?</p>
+
+            <p>O trabalho do psicólogo em saúde mental busca apoiar a regulação emocional, ajudando o paciente ou cliente a encontrar seu caminho e a enfrentar dificuldades e dores emocionais. Esse processo pode envolver reflexão, treinamento e diferentes técnicas ou abordagens, muitas vezes com o uso de ferramentas lúdicas, pedagógicas, testes e animais.</p>
+
+            <p>Estudos investigam os estímulos que os animais provocam no organismo humano. Os cães, em particular, podem ser importantes aliados no cuidado de diferentes transtornos e condições de saúde mental e física. Eles são utilizados em terapias, psicoterapias e estudos científicos desde a década de 1950. Já a pesquisa sobre seu uso especificamente no tratamento da depressão e sua validação científica ganhou força na década de 1990.</p>
+
+            <p>A utilização de cães em terapia ou psicoterapia envolve a interação afetuosa entre o paciente e o animal. O contato pode consistir numa troca de olhares, em carícias no pelo ou num abraço, proporcionando uma sensação de relaxamento e tranquilidade. Também pode envolver exercícios de obediência, que estimulam a autoconfiança: ao dar comandos e perceber que o cão responde, o paciente pode vivenciar um ciclo de reforço positivo. Essa prática pode ser incorporada a diferentes abordagens para favorecer o vínculo entre paciente e psicólogo. Mesmo sem ter um cão ou conhecer técnicas de adestramento, o psicólogo pode contar com a colaboração de um profissional adestrador para planejar as atividades. A terapia assistida por animais pode ser considerada em diferentes contextos, como no trabalho com depressão, fobias, síndrome do pânico e regulação emocional de crianças autistas, sempre de acordo com as necessidades de cada pessoa. É claro que, se o paciente tiver medo de cães ou um trauma relacionado a uma mordida, o animal poderá ser um estímulo aversivo; nesse caso, o processo terapêutico deverá ser diferente.</p>
+
+            <p>Um cão, integrado ao trabalho terapêutico, pode auxiliar o psicólogo na condução das atividades de forma espontânea e estimular o paciente a retornar ou a manter seus compromissos com a psicoterapia. Estudos sobre a interação com animais investigam possíveis efeitos sobre o estresse e o bem-estar. Na minha experiência, durante essas atividades, era possível perceber o relaxamento e o bem-estar dos participantes.</p>
+
+            <p>Minha primeira participação em uma atividade de terapia assistida por animais (TAA) foi na década de 2000, em uma universidade de Cascavel. Como voluntário num projeto do curso de Fisioterapia, treinei por cerca de um ano uma cadela da raça Golden Retriever, chamada Lassie, para o atendimento de crianças com deficiência e outras necessidades específicas, com aproximadamente quatro anos de idade. Na década de 2010, participei pela primeira vez de um trabalho de TAA na área da Psicologia, em um projeto que propus junto ao FUSEx (Fundo de Saúde do Exército). Atuei como treinador voluntário por três anos com minha cadela, Aghata, também Golden Retriever, ao lado de uma psicóloga e de crianças com necessidades especiais e deficiência.</p>
+
+            <p>Nessa fase do meu trabalho, uma paciente chamou muito a minha atenção. Antonieta (nome fictício) tinha apenas cinco anos e era cega de nascença. O pai tinha dificuldade em aceitar as limitações da filha, o que desencadeou brigas com a mãe e, posteriormente, a separação do casal. Nesse contexto, Antonieta desenvolveu crises de pânico e aversão à figura masculina e à voz de homens. A TAA com a Aghata foi então incorporada às atividades de psicoterapia.</p>
+
+            <p>No primeiro contato da criança com a cadela, fiquei a alguns metros de distância, perto o suficiente para controlar o animal enquanto Antonieta interagia com a Aghata sob a orientação da psicóloga. O banho e a escovação foram feitos antes do atendimento, pois o contato com as mãos e o odor deveriam ser agradáveis. Antonieta gostou da interação e passou a pedir a participação da Aghata em todas as sessões. Nas primeiras vezes, quando ouvia minha voz, a menina se agitava, chorava e, às vezes, gritava. Então, eu me afastava o bastante para que a psicóloga conseguisse acalmá-la.</p>
+
+            <p>Aos poucos, ao longo de cerca de oito sessões, Antonieta passou a associar minha voz à presença da Aghata, permitindo gradualmente a minha aproximação, até me receber com abraços na chegada e na despedida. Nas últimas sessões, conduzia a Aghata pela guia, comigo ao lado para auxiliá-la. A mãe e a psicóloga relataram uma evolução importante no vínculo comigo e uma diminuição das crises de pânico.</p>
+
+            <p>Em um evento realizado pela Universidade UNOPAR, participei com Zoe, uma cadela Golden Retriever, de uma atividade que combinava a interação com o animal e técnicas de <em>mindfulness</em>, ou atenção plena. Foram realizadas atividades de relaxamento com alunos que visitavam a feira. Em um caso específico, a experiência teve um desfecho que me surpreendeu.</p>
+
+            <p>A atividade foi feita com uma adolescente de dezesseis anos. Colocamos um colchão no chão, com Zoe deitada sobre ele e a adolescente posicionada ao lado. Pedi que ela fechasse os olhos e colocasse as duas mãos nas costas da cadela. Em seguida, orientei-a a inspirar pelo nariz e soltar o ar pela boca, enquanto passava as mãos nas costas de Zoe, concentrando-se na sensação do contato.</p>
+
+            <p>Depois, pedi que imaginasse uma paisagem com rios e pôr do sol e, enquanto acariciava a cadela, visualizasse entrar num rio de águas cristalinas até a água alcançar a altura das canelas. Orientei-a a olhar para os próprios pés e a imaginar o som da água correndo e batendo nas pedras. Após algum tempo guiando esse exercício de relaxamento, pedi que abrisse os olhos e perguntei como estava se sentindo e se a experiência havia sido agradável. Ela começou a chorar e relatou que fazia muito tempo que não sentia paz e que não se sentia tão bem, leve e feliz.</p>
+
+            <p>Na minha percepção e conforme o relato da própria participante, a atividade foi um momento sem estresse nem cobranças, dedicado ao exercício de atenção às emoções. A experiência pareceu ajudá-la a se afastar por alguns instantes do sofrimento, perceber que poderia levar a vida com mais leveza e reconhecer a possibilidade de sentir felicidade.</p>
+
+            <p>Treinar um cão para oferecer apoio emocional às pessoas e poder integrar esse trabalho às terapias, colocando em prática o conhecimento que adquiri ao longo de cinco anos de faculdade, reforça a sensação de que estou no caminho certo. Acredito que esse trabalho poderá contribuir para o bem-estar dos meus futuros pacientes e ajudá-los a perceber que podem aprender a regular suas emoções e cultivar momentos de felicidade — algo que também me faz bem.</p>
           </div>
         `
       },
@@ -986,7 +1220,29 @@
             <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A PSICOLOGIA QUE EU QUERO EXERCER</h2>
             <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Claudio Garcia da Fonseca (@claudiogarcia)</p>
 
-            <p>Em um mundo cheio de agulhas tentando furar o balão da vida das pessoas, quero ser o oxigênio que devolve a esperança. Pautado na ética e na escuta ativa, lembrando o ensinamento de Carl Jung.</p>
+            <p>Escolhi a Psicologia por gostar de ajudar o próximo. Sempre me senti tocado por isso: pessoas próximas me pediam conselhos e ajuda em diversas situações. Chegou um momento em que senti necessidade de adquirir mais experiência e conhecimento nessa área da ciência. Eu mesmo já precisei de uma psicóloga para compreender e trabalhar minhas questões. Na faculdade, cada atendimento de estágio na clínica me deu a certeza da minha escolha. Ver, em cada rosto, em cada história e em cada sessão, a transformação que essa profissão promove na vida das pessoas me fez querer ainda mais seguir esse caminho.</p>
+
+            <p>Hoje penso que o mundo já está cheio de agulhas tentando, a todo momento, furar o balão da vida de cada um. Por isso, quero ser o oxigênio que devolve ao balão o ar que ele perdeu: não para impedir que as agulhas existam, mas para ajudar as pessoas a recuperarem a esperança de dias melhores, de sonhos e de uma vida pela frente.</p>
+
+            <p>A Psicologia que quero exercer começa, antes de tudo, pela escuta ativa e personalizada e pelo acolhimento. Desejo ser um profissional capaz de enxergar cada indivíduo com o coração, para além de seus diagnósticos, patologias, dificuldades e comportamentos, compreendendo que, por trás de cada história, existe um ser humano com sentimentos, experiências de vida, medos e lutas próprias.</p>
+
+            <p>Quero exercer uma Psicologia fundamentada no respeito e na ética que rege a profissão; uma Psicologia que vá além de respostas prontas e que, principalmente, saiba formular perguntas capazes de promover reflexão em cada paciente. Quero ser um profissional que respeite o silêncio e caminhe ao lado de quem necessita de apoio para compreender e definir os próximos passos da própria vida.</p>
+
+            <p>Durante a graduação, aprendi como um futuro profissional deve se portar e também que não preciso ter respostas para tudo, mas, sim, estar aberto a ouvir todos que, em algum momento, me procurarem. Entendi a importância de estudar continuamente, reconhecer minhas limitações, levar o que aprendi para a prática profissional e deixar rastros positivos na vida de quem passar por mim.</p>
+
+            <p>A Psicologia que quero praticar reconhece o sofrimento e as dificuldades de cada pessoa, mas também sua capacidade de buscar ajuda e se transformar. Espero que meu trabalho proporcione às pessoas um lugar seguro e acolhedor, onde possam conversar, refletir e compreender suas demandas, descobrindo novas possibilidades diante do que vivem.</p>
+
+            <p>Acredito que cada ser humano carrega angústias ao longo da vida e que, às vezes, podemos nos comparar a uma faca em processo de fabricação: para ganhar forma e resistência, ela passa pelo fogo. O fogo simboliza nossas angústias, tristezas e ansiedades: quanto maior a temperatura, maior o desconforto que essas dificuldades nos causam e mais elas nos tiram da zona de conforto. Podemos dizer que a terapia é o espaço em que, diante desse fogo, somos confrontados com nossas experiências de vida, comportamentos e sentimentos. A psicoterapia nos ajuda a moldar nosso modo de ser, a sermos autores de nossas vidas e a desenvolvermos autoconhecimento e autoconsciência sobre quem somos e como agimos diante das nossas vivências, em vez de sermos apenas espectadores da própria vida. Que possamos buscar essa autoria, sem esquecer: o fogo não é motivo para agradecer nem para romantizar o próprio sofrimento. A psicoterapia ajuda as pessoas a compreender suas demandas e a encontrar maneiras de lidar com cada situação.</p>
+
+            <p>Carl Jung, psiquiatra e psicoterapeuta suíço, trouxe contribuições importantes para o processo terapêutico. Podemos lembrar uma ideia a ele associada: “Que possamos conhecer todas as teorias, dominar todas as técnicas, mas, ao tocar uma alma humana, que sejamos apenas outra alma humana”. Essa mensagem é profunda, pois, no dia a dia, como psicólogo, conhecerei diversas histórias, vidas e demandas, talvez até parecidas, mas todas singulares. Ser apenas outra alma humana, para mim, é suspender meus valores e as verdades que talvez considere únicas e absolutas. Muitos gritos de socorro não saem da boca para fora; alguns são gritados da boca para dentro. Que eu seja um profissional que busque todas as formas possíveis de apoiar a outra vida que está diante de mim.</p>
+
+            <p>Ao escrever este capítulo, lembro-me de muitas experiências e vitórias interiores vividas ao longo do curso de Psicologia, principalmente nos últimos semestres e, de modo especial, no último, quando me vem com frequência uma pergunta: “E agora?”. Pensando bem, essa pergunta está tão presente porque carrega o medo de não fazer a diferença na vida das pessoas e, ao mesmo tempo, a expectativa de ser alguém que faça sentido na vida de quem me procura e de aprender com cada atendimento. Na graduação, não fui formado para ser o melhor, mas para dar o melhor de mim a cada pessoa que chega até mim para uma conversa e, talvez, apenas para encontrar uma presença. Precisamos falar sobre o trabalho do psicólogo: às vezes, temos a visão de que ele precisa sempre ter respostas para tudo, mas isso é uma ilusão. O psicólogo precisa sustentar um ambiente de confiança e cuidado para construir, junto com o paciente, possibilidades para sua vida e ajudá-lo a desenvolver novas habilidades.</p>
+
+            <p>É importante esclarecer algo: o profissional de Psicologia facilita o processo para que cada paciente possa enxergar novos recursos para a vida, mas não pode correr o risco de carregar a vida do outro como se fosse sua, pois isso o deixa sem clareza para ajudar de fato quem o procura. Que eu seja um profissional consciente dos meus limites e um instrumento de clareza para que o paciente consiga perceber, construir e colocar em prática, em todas as áreas de sua vida, aquilo que aprendeu em terapia.</p>
+
+            <p>Aprendi, ao longo do curso, que a terapia, para funcionar de forma eficaz e gerar resultados positivos, precisa ser um trabalho conjunto com o paciente. Assim, pretendo ajudar as pessoas a reconhecerem a própria força e a atravessarem os dias difíceis.</p>
+
+            <p>Encerro este capítulo com a certeza de que terei muitos desafios pela frente, mas desejo ser um profissional que ajude o próximo, apesar deles. Quero estar ao lado de quem me procurar pedindo ajuda e esclarecimentos. Se, ao final de cada dia, alguém puder sair da sessão com mais clareza e esperança, ficarei feliz por ter cumprido o meu papel. Essa é a Psicologia que quero exercer.</p>
           </div>
         `
       },
@@ -994,15 +1250,41 @@
       // CAPÍTULO 13 - CAMILA MADERS (PÁGINAS 67 - 73)
       {
         type: 'content',
-        chapter: 'A Paixão que Não Estava nos Planos',
+        chapter: 'A Paixão que Não Estava nos Planos: Quando a Docência nos Encontra',
         author: 'Camila Maders',
         html: `
           <div class="space-y-3 font-serif text-gray-800 leading-relaxed text-xs sm:text-sm">
             <span class="text-[10px] font-sans uppercase font-bold tracking-widest text-brand-teal">Capítulo 13</span>
-            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A PAIXÃO QUE NÃO ESTAVA NOS PLANOS: A DOCÊNCIA</h2>
-            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Camila Maders (camila.maders@cogna.com.br)</p>
+            <h2 class="font-display text-lg sm:text-xl font-bold text-gray-950 leading-tight">A PAIXÃO QUE NÃO ESTAVA NOS PLANOS: QUANDO A DOCÊNCIA NOS ENCONTRA</h2>
+            <p class="text-[11px] font-sans text-gray-600 font-semibold mb-2">Camila Maders (<a href="mailto:camila.maders@cogna.com.br" class="underline">camila.maders@cogna.com.br</a>)</p>
 
-            <p>Ser professor é um constante aprender. Formar futuros psicólogos exige responsabilidade com o desenvolvimento humano e sensibilidade com a história das pessoas.</p>
+            <p>Ser professor é vocação, paixão ou acaso? Nunca pensei muito nessa pergunta até perceber que, às vezes, a docência chega à nossa vida sem que tenhamos planejado. Nem sempre sonhamos em ser professores desde a infância ou imaginamos que um dia estaríamos diante de uma sala de aula. A vida vai acontecendo, as oportunidades aparecem e, quando percebemos, estamos planejando aulas, estudando, buscando novas referências e pensando em como poderíamos fazer diferente na próxima vez.</p>
+
+            <p>Acredito que a paixão pela docência nem sempre nasce antes da escolha. Às vezes, ela aparece depois, no cotidiano, entre uma aula e outra. Começa quando percebemos que gostamos de explicar um conteúdo de um jeito diferente, quando uma pergunta de um estudante nos faz pensar ou quando vemos alguém compreender algo que antes parecia difícil. São momentos que talvez pareçam pequenos para quem está de fora, mas que, para nós, passam a ter um significado especial.</p>
+
+            <p>Com o tempo, percebemos que a docência começa a ocupar espaços que vão além da sala de aula. Pensamos em uma atividade enquanto estamos em casa, encontramos uma referência e já imaginamos como utilizá-la com os estudantes, terminamos uma aula e ficamos pensando no que poderíamos ter feito de outra maneira. Nem sempre conseguimos separar completamente o trabalho daquilo que somos, porque ensinar passa a fazer parte da nossa maneira de olhar para o mundo. E é curioso perceber que algo que talvez nem estivesse nos nossos planos acaba se tornando tão nosso.</p>
+
+            <p>Mas nem todo mundo entende essa escolha. “Mas por que dar aulas?”, já ouvimos ou talvez até tenhamos nos perguntado. Por que dedicar tanto tempo a uma profissão que exige tanto? Por que continuar diante de tantas cobranças, dificuldades e, muitas vezes, pouca valorização? São perguntas que não têm respostas simples. A docência cansa, exige disposição e, em alguns dias, coloca à prova a nossa própria vontade de continuar. Gostar do que fazemos não nos torna imunes à frustração, tampouco significa que precisamos aceitar tudo em nome da paixão pela profissão.</p>
+
+            <p>Ainda assim, existe algo que nos faz permanecer. Talvez seja aquela satisfação difícil de explicar quando uma aula acontece como imaginávamos. Talvez seja a curiosidade de continuar aprendendo, o prazer de compartilhar o que estudamos ou a alegria de perceber que um estudante está construindo seu próprio caminho. Em algum momento, entendemos que não estamos ali apenas porque precisamos cumprir uma tarefa. Estamos porque encontramos sentido naquilo que fazemos.</p>
+
+            <p>Para mim, uma das partes mais bonitas da docência está justamente nessa descoberta. Encontrar algo que se conecta com a nossa essência não significa ter certeza de tudo ou saber, desde o início, qual caminho seguir. Significa reconhecer aquilo que nos desperta interesse, que nos mobiliza e que nos faz sentir que estamos no lugar certo. Essa conexão não elimina as dúvidas nem torna os dias difíceis mais fáceis, mas nos ajuda a compreender por que escolhemos continuar.</p>
+
+            <p>Ser professor também é conviver com a certeza de que nunca saberemos tudo. O conhecimento muda, as pessoas mudam e aquilo que funcionava em uma turma pode não fazer sentido em outra. Precisamos estudar, rever ideias, reconhecer quando uma estratégia não deu certo e encontrar outras possibilidades. E, por mais que estejamos ali para ensinar, os estudantes também nos ensinam. Suas perguntas, experiências e maneiras de compreender o mundo nos tiram do lugar de conforto e nos lembram de que a aprendizagem não acontece em uma única direção.</p>
+
+            <p>Na Psicologia, essa experiência tem um significado ainda maior. Formar psicólogos não é apenas ensinar teorias, conceitos ou técnicas. É ajudar a desenvolver o olhar crítico, a responsabilidade ética e a sensibilidade necessárias para compreender a complexidade humana. É lembrar que, por trás de cada conceito, existe uma pessoa, uma história e uma realidade que não pode ser reduzida a um diagnóstico ou a uma explicação pronta. Sabemos que os estudantes que hoje estão em nossas salas de aula poderão, amanhã, acolher pessoas em momentos difíceis, participar de decisões importantes e contribuir para a vida de muitas famílias. Pensar nisso nos faz reconhecer a responsabilidade que acompanha o nosso trabalho.</p>
+
+            <p>Nem sempre saberemos o que ficou de uma aula. Talvez um estudante se lembre de uma explicação anos depois, leve consigo uma pergunta que fizemos ou encontre em uma conversa o incentivo de que precisava naquele momento. Muitas vezes, seguimos para a próxima aula sem saber o que nossas palavras despertaram. E tudo bem não ter essa resposta. Não precisamos conhecer o alcance de cada gesto para compreender que aquilo que compartilhamos pode continuar fazendo sentido muito depois de o semestre terminar.</p>
+
+            <p>Por isso, acredito que ensinar exige compromisso com aquilo em que acreditamos. Não precisamos ser professores perfeitos, ter todas as respostas ou acertar sempre. Precisamos levar a sério a responsabilidade que assumimos, reconhecer nossos erros e ter humildade para continuar aprendendo. A paixão pela docência não substitui a competência, o preparo ou as condições dignas de trabalho. Pelo contrário, ela ganha força quando encontra responsabilidade, respeito e disposição para fazer bem aquilo que nos cabe.</p>
+
+            <p>Talvez ser professor seja um pouco de vocação, um pouco de acaso e muito daquilo que construímos ao longo da vida. Nem sempre chegamos à sala de aula sabendo o que essa experiência representará para nós. Às vezes, descobrimos aos poucos, entre os desafios, as conversas, as aulas que dão certo e aquelas que nos fazem repensar tudo. Quando olhamos para trás, percebemos que não foi apenas o nosso conhecimento que cresceu. Nós também mudamos, amadurecemos e passamos a enxergar a educação e as pessoas de outra maneira.</p>
+
+            <p>Hoje, penso que encontrar a própria essência tem muito a ver com reconhecer aquilo que faz sentido, mesmo quando não conseguimos explicar completamente o porquê. Nem sempre teremos respostas para quem questiona nossas escolhas, e talvez nem precisemos ter. Algumas coisas são compreendidas mais pelo que vivemos do que pelo que conseguimos dizer. Há profissões que exercemos e há aquelas em que, ao longo do caminho, acabamos nos reconhecendo.</p>
+
+            <p>E, quando alguém perguntar se ser professor é vocação, paixão ou acaso, talvez eu responda que não sei exatamente em que momento essa paixão começou. Sei que ela não precisava estar nos meus planos desde o início para se tornar importante. Foi sendo construída nas experiências, nos encontros e em tudo aquilo que a docência me permitiu aprender. Hoje, ensinar não significa apenas compartilhar conhecimento, mas também reconhecer uma parte de mim nessa escolha.</p>
+
+            <p>Talvez seja esse o sentido de quando a docência nos encontra: descobrir, sem ter planejado, que aquilo que um dia parecia apenas uma possibilidade se tornou parte da nossa história. E perceber que, entre tantas coisas que aprendemos ao longo da vida, uma delas foi reconhecer aquilo que nos faz querer continuar.</p>
           </div>
         `
       },
@@ -1024,6 +1306,8 @@
       }
     ];
 
+    const sourcePages = rawPages.map((page, sourcePageIndex) => ({ ...page, sourcePageIndex }));
+
     /* ==========================================================================
        2. ESTRUTURAÇÃO DOS SPREADS (DUAS PÁGINAS LADO A LADO)
        ========================================================================== */
@@ -1032,6 +1316,7 @@
     let currentPageIndex = 0;
     let isHighContrast = false;
     let currentFontSizeOffset = 0;
+    let isRepaginating = false;
 
     // Estado da Síntese de Voz (TTS)
     const synth = window.speechSynthesis;
@@ -1039,6 +1324,7 @@
     let ttsSpeed = 1.0;
 
     window.onload = function() {
+      rebuildPages(false);
       organizeSpreads();
       renderSpread();
       buildTOC();
@@ -1060,6 +1346,294 @@
 
     function isMobileLayout() {
       return window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    function createMeasurementPage() {
+      const page = document.getElementById('left-page-container');
+      const book = document.getElementById('open-book-container');
+      const bounds = isMobileLayout()
+        ? { width: book.clientWidth, height: book.clientHeight }
+        : { width: page.clientWidth, height: page.clientHeight };
+      const measurePage = page.cloneNode(false);
+      measurePage.removeAttribute('id');
+      measurePage.classList.add('active-mobile');
+      Object.assign(measurePage.style, {
+        position: 'fixed',
+        left: '-10000px',
+        top: '0',
+        width: `${bounds.width}px`,
+        height: `${bounds.height}px`,
+        visibility: 'hidden',
+        pointerEvents: 'none',
+        display: 'flex',
+        zIndex: '-1'
+      });
+
+      const body = document.createElement('div');
+      body.className = 'flex-1 page-body-content';
+      body.style.flex = 'none';
+      body.style.overflow = 'visible';
+      if (currentFontSizeOffset !== 0) {
+        body.style.fontSize = `${0.9 + (currentFontSizeOffset * 0.07)}rem`;
+      }
+
+      const footer = document.createElement('div');
+      footer.className = 'page-footer mt-4 pt-2 border-t border-gray-200/60 flex justify-between items-center text-[11px] text-gray-400 font-sans';
+      footer.innerHTML = '<span>VOZES DA PSICOLOGIA</span><span>Pág. 999</span>';
+      footer.style.flexShrink = '0';
+      measurePage.append(body, footer);
+      document.body.appendChild(measurePage);
+
+      const pageStyles = getComputedStyle(measurePage);
+      const footerStyles = getComputedStyle(footer);
+      const availableHeight = measurePage.clientHeight
+        - parseFloat(pageStyles.paddingTop)
+        - parseFloat(pageStyles.paddingBottom)
+        - footer.offsetHeight
+        - parseFloat(footerStyles.marginTop);
+
+      return {
+        body,
+        availableHeight,
+        dispose: () => measurePage.remove()
+      };
+    }
+
+    function pageHtml(root, blocks) {
+      const wrapper = root.cloneNode(false);
+      blocks.forEach(block => wrapper.appendChild(block.cloneNode(true)));
+      return wrapper.outerHTML;
+    }
+
+    function fitsPage(root, blocks, measurement) {
+      measurement.body.innerHTML = pageHtml(root, blocks);
+      const fontSize = parseFloat(getComputedStyle(measurement.body).fontSize);
+      const bottomSafetyMargin = Math.ceil(fontSize * 1.5);
+      return measurement.body.scrollHeight + bottomSafetyMargin <= measurement.availableHeight;
+    }
+
+    function splitTextBlock(block, root, measurement) {
+      const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT);
+      const words = [];
+      let textNode;
+
+      while ((textNode = walker.nextNode())) {
+        const expression = /\S+/g;
+        let match;
+        while ((match = expression.exec(textNode.nodeValue))) {
+          words.push({ node: textNode, start: match.index, end: expression.lastIndex });
+        }
+      }
+
+      if (!words.length) return [block];
+
+      const createSegment = (start, end, includeLeadingSpace) => {
+        const range = document.createRange();
+        range.setStart(words[start].node, words[start].start);
+        range.setEnd(words[end - 1].node, words[end - 1].end);
+        const segment = block.cloneNode(false);
+        if (includeLeadingSpace) segment.appendChild(document.createTextNode(' '));
+        segment.appendChild(range.cloneContents());
+        return segment;
+      };
+
+      const segments = [];
+      let start = 0;
+      while (start < words.length) {
+        let low = start + 1;
+        let high = words.length;
+        let best = start + 1;
+
+        while (low <= high) {
+          const middle = Math.floor((low + high) / 2);
+          const candidate = createSegment(start, middle, start > 0);
+          if (fitsPage(root, [candidate], measurement)) {
+            best = middle;
+            low = middle + 1;
+          } else {
+            high = middle - 1;
+          }
+        }
+
+        segments.push(createSegment(start, best, start > 0));
+        start = best;
+      }
+      return segments;
+    }
+
+    function paginateContentPage(page, measurement) {
+      const template = document.createElement('template');
+      template.innerHTML = page.html.trim();
+      const root = template.content.firstElementChild;
+      if (!root) return [{ ...page, sourcePartIndex: 0 }];
+
+      const blocks = Array.from(root.children).map(block => block.cloneNode(true));
+      const pages = [];
+      let currentBlocks = [];
+
+      const saveCurrentPage = () => {
+        if (!currentBlocks.length) return;
+        pages.push({
+          ...page,
+          html: pageHtml(root, currentBlocks),
+          sourcePartIndex: pages.length
+        });
+        currentBlocks = [];
+      };
+
+      blocks.forEach(block => {
+        if (fitsPage(root, [...currentBlocks, block], measurement)) {
+          currentBlocks.push(block);
+          return;
+        }
+
+        saveCurrentPage();
+        if (fitsPage(root, [block], measurement)) {
+          currentBlocks = [block];
+          return;
+        }
+
+        const segments = block.tagName === 'P'
+          ? splitTextBlock(block, root, measurement)
+          : [block];
+        segments.forEach((segment, index) => {
+          if (currentBlocks.length && !fitsPage(root, [...currentBlocks, segment], measurement)) {
+            saveCurrentPage();
+          }
+          currentBlocks.push(segment);
+          if (index < segments.length - 1) saveCurrentPage();
+        });
+      });
+
+      saveCurrentPage();
+      return pages.length ? pages : [{ ...page, sourcePartIndex: 0 }];
+    }
+
+    function paginateTocPage(page, measurement) {
+      const template = document.createElement('template');
+      template.innerHTML = page.html.trim();
+      const root = template.content.firstElementChild;
+      const list = root?.querySelector('div.space-y-1');
+      if (!root || !list) return [{ ...page, sourcePartIndex: 0 }];
+
+      const buttons = Array.from(list.querySelectorAll('button'));
+      const pages = [];
+      let currentButtons = [];
+
+      const createPageRoot = pageButtons => {
+        const pageRoot = root.cloneNode(true);
+        const pageList = pageRoot.querySelector('.space-y-1');
+        pageList.innerHTML = '';
+        pageButtons.forEach(button => pageList.appendChild(button.cloneNode(true)));
+        if (pages.length > 0) {
+          const heading = pageRoot.querySelector('h2');
+          if (heading) heading.textContent = 'SUMÁRIO (CONTINUAÇÃO)';
+        }
+        return pageRoot;
+      };
+
+      const saveTocPage = () => {
+        if (!currentButtons.length) return;
+        const pageRoot = createPageRoot(currentButtons);
+        pages.push({
+          ...page,
+          html: pageRoot.outerHTML,
+          sourcePartIndex: pages.length
+        });
+        currentButtons = [];
+      };
+
+      buttons.forEach(button => {
+        const candidate = [...currentButtons, button];
+        const candidateRoot = createPageRoot(candidate);
+        if (fitsPage(candidateRoot, Array.from(candidateRoot.children), measurement)) {
+          currentButtons = candidate;
+        } else if (currentButtons.length) {
+          saveTocPage();
+          currentButtons = [button];
+        } else {
+          currentButtons = [button];
+          saveTocPage();
+        }
+      });
+      saveTocPage();
+      return pages.length ? pages : [{ ...page, sourcePartIndex: 0 }];
+    }
+
+    function updateStaticTOC() {
+      const chapters = [];
+      sourcePages.forEach((page, sourcePageIndex) => {
+        if (!page.chapter || page.chapter === 'Introdução') return;
+        if (!chapters.some(chapter => chapter.title === page.chapter)) {
+          chapters.push({ title: page.chapter, sourcePageIndex });
+        }
+      });
+
+      const tocPages = rawPages.filter(page => page.type === 'toc');
+      let chapterIndex = 0;
+      tocPages.forEach(page => {
+        const container = document.createElement('div');
+        container.innerHTML = page.html;
+        const buttons = container.querySelectorAll('button');
+        buttons.forEach(button => {
+          const chapter = chapters[chapterIndex];
+          chapterIndex += 1;
+          if (!chapter) return;
+          const pageIndex = rawPages.findIndex(item => item.sourcePageIndex === chapter.sourcePageIndex);
+          if (pageIndex < 0) return;
+          button.setAttribute('onclick', `jumpToPage(${pageIndex + 1})`);
+          const pageLabel = button.querySelector('span:last-child');
+          if (pageLabel) pageLabel.textContent = `Pág. ${pageIndex + 1}`;
+        });
+        page.html = container.innerHTML;
+      });
+    }
+
+    function rebuildPages(preservePosition) {
+      if (isRepaginating) return;
+      isRepaginating = true;
+      const currentPage = rawPages[currentPageIndex];
+      const sourcePageIndex = preservePosition ? currentPage?.sourcePageIndex : 0;
+      const sourcePartIndex = preservePosition ? currentPage?.sourcePartIndex || 0 : 0;
+      const paginatedPages = [];
+      let measurement;
+
+      try {
+        measurement = createMeasurementPage();
+        sourcePages.forEach(page => {
+          let result;
+          if (page.type === 'content') {
+            result = paginateContentPage(page, measurement);
+          } else if (page.type === 'toc') {
+            result = paginateTocPage(page, measurement);
+          } else {
+            result = [{ ...page, sourcePartIndex: 0 }];
+          }
+          paginatedPages.push(...result);
+        });
+
+        measurement.dispose();
+        rawPages.splice(0, rawPages.length, ...paginatedPages);
+        updateStaticTOC();
+        organizeSpreads();
+        buildTOC();
+
+        let preservedIndex = rawPages.findIndex(page =>
+          page.sourcePageIndex === sourcePageIndex && page.sourcePartIndex === sourcePartIndex
+        );
+        if (preservedIndex < 0 && sourcePageIndex !== undefined) {
+          preservedIndex = rawPages.findIndex(page => page.sourcePageIndex === sourcePageIndex);
+        }
+        currentPageIndex = preservedIndex >= 0 ? preservedIndex : 0;
+        if (!isMobileLayout()) currentPageIndex = Math.floor(currentPageIndex / 2) * 2;
+
+        if (document.getElementById('left-page-container').innerHTML) {
+          renderSpread();
+        }
+      } finally {
+        measurement?.dispose();
+        isRepaginating = false;
+      }
     }
 
     /* Renderização do Livro Aberto */
@@ -1086,6 +1660,7 @@
           </div>
         `;
         leftContainer.classList.toggle('active-mobile', mobileLayout && currentPageIndex === spread.leftIndex);
+        applyFontSize(leftContainer);
       } else {
         leftContainer.innerHTML = '';
         leftContainer.classList.remove('active-mobile');
@@ -1101,6 +1676,7 @@
           </div>
         `;
         rightContainer.classList.toggle('active-mobile', mobileLayout && currentPageIndex === spread.rightIndex);
+        applyFontSize(rightContainer);
       } else {
         rightContainer.innerHTML = `
           <div class="h-full flex items-center justify-center text-gray-300 font-serif italic text-sm">
@@ -1351,6 +1927,7 @@
     function toggleHighContrast() {
       isHighContrast = !isHighContrast;
       document.getElementById('app-body').classList.toggle('high-contrast', isHighContrast);
+      rebuildPages(true);
     }
 
     function changeFontSize(delta) {
@@ -1358,20 +1935,20 @@
       if (currentFontSizeOffset < -2) currentFontSizeOffset = -2;
       if (currentFontSizeOffset > 3) currentFontSizeOffset = 3;
 
-      const pageBodies = document.querySelectorAll('.page-body-content');
-      pageBodies.forEach(el => {
-        el.style.fontSize = `${0.9 + (currentFontSizeOffset * 0.07)}rem`;
-      });
+      rebuildPages(true);
+    }
+
+    function applyFontSize(pageContainer) {
+      if (currentFontSizeOffset === 0) return;
+      const pageBody = pageContainer.querySelector('.page-body-content');
+      if (pageBody) pageBody.style.fontSize = `${0.9 + (currentFontSizeOffset * 0.07)}rem`;
     }
 
     function setupEvents() {
-      let wasMobileLayout = isMobileLayout();
+      let resizeTimeout;
       window.addEventListener('resize', () => {
-        const mobileLayout = isMobileLayout();
-        if (mobileLayout !== wasMobileLayout) {
-          wasMobileLayout = mobileLayout;
-          renderSpread();
-        }
+        window.clearTimeout(resizeTimeout);
+        resizeTimeout = window.setTimeout(() => rebuildPages(true), 150);
       });
 
       document.addEventListener('keydown', (e) => {
@@ -1396,4 +1973,3 @@
   </script>
 </body>
 </html>
-
